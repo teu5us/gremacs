@@ -130,7 +130,7 @@
   :hook (after-init . evil-goggles-mode)
   :config
   (setq evil-goggles-pulse t)
-  (setq evil-goggles-duration 0.2)
+  (setq evil-goggles-duration 0.1)
   (evil-goggles-use-diff-faces))
 
 ;;;; load evil-nerd-commenter
