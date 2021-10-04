@@ -211,7 +211,7 @@ mouse-2: EXWM Workspace menu.
   (exwm-systemtray-enable)
 ;;;; xim
   (require 'exwm-xim)
-  (when (featurep evil)
+  (when (featurep 'evil)
     (evil-set-initial-state 'exwm-mode 'emacs)
     (defvar s-space 8388640
       "Key value for s-SPC.")
