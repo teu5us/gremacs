@@ -4,7 +4,6 @@
 (defvar bootstrap-version)
 
 (defvar straight-build-cache-fixed-name (format "build-%s-cache.el" emacs-version))
-(defvar straight-vc-git-default-clone-depth 1)
 (defvar straight-check-for-modifications
   (if (executable-find "watchexec")
       '(watch-files find-when-checking)
@@ -23,8 +22,7 @@
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage)
-  (setq straight-vc-git-default-clone-depth 1))
+  (load bootstrap-file nil 'nomessage))
 
 ;; Install use-package
 (straight-use-package 'use-package)
