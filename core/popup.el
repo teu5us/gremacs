@@ -104,6 +104,8 @@ HLINE defines if header line should be displayed.  Default: 'none."
 
 ;;;; define some rules
 (p/defpopups `(("*helpful.*" :side right :width 0.5)
+               ("*Customize.*" :side right :width 0.5)
+               ("*Help.*" :side right :width 0.5)
                ("*Finder.*" :side right :width 0.5)
                ("Aweshell:.*" :side top :height 0.2)
                ("*rg*" :side right)
