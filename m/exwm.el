@@ -221,15 +221,14 @@ mouse-2: EXWM Workspace menu.
     (push m-space exwm-input-prefix-keys))
   (exwm-xim-enable)
 ;;;; randr
+  (require 'exwm-randr)
   ;; (setq exwm-randr-workspace-monitor-plist '(0 "HDMI-1"))
   ;; (setq exwm-randr-workspace-monitor-plist '(0 "DP-2"))
   ;; (add-hook 'exwm-randr-screen-change-hook
   ;;           (lambda ()
   ;;             (start-process-shell-command
   ;;              "xrandr" nil "xrandr --output eDP-1 --left-of HDMI-1 --auto")))
-  (exwm-randr-enable)
-;;;; RUN IT
-  (run-exwm))
+  (exwm-randr-enable))
 
 ;;; exwm-edit
 (use-package exwm-edit
