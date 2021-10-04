@@ -18,7 +18,7 @@
     "Refresh dashboard buffer without switching to it."
     (let ((dashboard-force-refresh t))
       (save-current-buffer
-        (set-buffer dashboard-buffer-name)
+        (set-buffer (get-buffer-create dashboard-buffer-name))
         (dashboard-insert-startupify-lists))))
   :custom
   (initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
