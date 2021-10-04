@@ -102,6 +102,9 @@ Can be set using GROUND_EMACS_USERDIR environment variable.")
     (error "USER-DIR must be an absolute path:
 check the value of GROUND_EMACS_USERDIR environment variable")))
 
+;;;; one space for sentence end
+(setq sentence-end-double-space nil)
+
 ;;;; history
 ;; Set history-length longer
 (setq-default history-length 500)
