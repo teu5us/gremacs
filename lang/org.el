@@ -1,0 +1,144 @@
+;;; org.el --- org-mode configuration -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;; This file configures org-mode and various additions to it.
+
+;;; Code:
+
+;;;; org mode itself
+(use-package org
+;;;;; custom
+  :custom
+;;;;;; headings
+  (org-num-skip-footnotes t)
+  (org-num-skip-commented t)
+  (org-cycle-separator-lines 0)
+  (org-hide-leading-stars t)
+;;;;;; todo
+  (org-enforce-todo-dependencies t)
+  (org-log-done 'time)
+  (org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)")
+                       (sequence "CANCELED(c)")))
+  ;; nav
+  (org-special-ctrl-a/e t)
+;;;;; hooks
+  :hook
+  (org-mode . (lambda ()
+                ;; number headings
+                (org-num-mode)
+                ;; visually indent text
+                (org-indent-mode)
+                (diminish 'org-num-mode)
+                (diminish 'org-indent-mode))))
+
+;;;; evil-org
+(use-package evil-org
+  :after org
+  :diminish evil-org-mode
+  :hook (org-mode . (lambda () (evil-org-mode)))
+  :config
+;;;;; inserting stuff (from doom-emacs)
+  (defun +org--insert-item (direction)
+    (let ((context (org-element-lineage
+                    (org-element-context)
+                    '(table table-row headline inlinetask item plain-list)
+                    t)))
+      (pcase (org-element-type context)
+        ;; Add a new list item (carrying over checkboxes if necessary)
+        ((or `item `plain-list)
+         ;; Position determines where org-insert-todo-heading and org-insert-item
+         ;; insert the new list item.
+         (if (eq direction 'above)
+             (org-beginning-of-item)
+           (org-end-of-item)
+           (backward-char))
+         (org-insert-item (org-element-property :checkbox context))
+         ;; Handle edge case where current item is empty and bottom of list is
+         ;; flush against a new heading.
+         (when (and (eq direction 'below)
+                    (eq (org-element-property :contents-begin context)
+                        (org-element-property :contents-end context)))
+           (org-end-of-item)
+           (org-end-of-line)))
+
+        ;; Add a new table row
+        ((or `table `table-row)
+         (pcase direction
+           ('below (save-excursion (org-table-insert-row t))
+                   (org-table-next-row))
+           ('above (save-excursion (org-shiftmetadown))
+                   (+org/table-previous-row))))
+
+        ;; Otherwise, add a new heading, carrying over any todo state, if
+        ;; necessary.
+        (_
+         (let ((level (or (org-current-level) 1)))
+           ;; I intentionally avoid `org-insert-heading' and the like because they
+           ;; impose unpredictable whitespace rules depending on the cursor
+           ;; position. It's simpler to express this command's responsibility at a
+           ;; lower level than work around all the quirks in org's API.
+           (pcase direction
+             (`below
+              (let (org-insert-heading-respect-content)
+                (goto-char (line-end-position))
+                (org-end-of-subtree)
+                (insert "\n" (make-string level ?*) " ")))
+             (`above
+              (org-back-to-heading)
+              (insert (make-string level ?*) " ")
+              (save-excursion (insert "\n"))))
+           (when-let* ((todo-keyword (org-element-property :todo-keyword context))
+                       (todo-type    (org-element-property :todo-type context)))
+             (org-todo
+              (cond ((eq todo-type 'done)
+                     ;; Doesn't make sense to create more "DONE" headings
+                     (car (+org-get-todo-keywords-for todo-keyword)))
+                    (todo-keyword)
+                    ('todo)))))))
+
+      (when (org-invisible-p)
+        (org-show-hidden-entry))
+      (when (and (bound-and-true-p evil-local-mode)
+                 (not (evil-emacs-state-p)))
+        (evil-insert 1))))
+
+  (defun +org/insert-item-above (count)
+    "Inserts a new heading, table cell or item above the current one."
+    (interactive "p")
+    (dotimes (_ count) (+org--insert-item 'above)))
+
+  (defun +org/insert-item-below (count)
+    "Inserts a new heading, table cell or item below the current one."
+    (interactive "p")
+    (dotimes (_ count) (+org--insert-item 'below)))
+
+;;;;; keys
+  (:maps (:n :v) org-mode-map "<localleader>-" #'org-ctrl-c-minus
+         (:n :v) org-mode-map "<localleader>*" #'org-ctrl-c-star
+         (:n :v) org-mode-map "<localleader>/" #'org-sparse-tree
+         (:n :v) org-mode-map "C-S-h" #'org-shiftleft
+         (:n :v) org-mode-map "C-S-l" #'org-shiftright
+         (:n :v) org-mode-map "<localleader>iH" (evil-org-define-eol-command
+                                                 org-insert-heading)
+         (:n :v) org-mode-map "<localleader>ih" (evil-org-define-eol-command
+                                                 org-insert-heading-respect-content)
+         (:n :v) org-mode-map "<localleader>is" (evil-org-define-eol-command
+                                                 org-insert-subheading)
+         (:n :v) org-mode-map "<localleader>il" (evil-org-define-eol-command
+                                                 org-insert-link)
+         (:n :v) org-mode-map "<localleader>id" (evil-org-define-eol-command
+                                                 org-insert-drawer)
+         (:n :v) org-mode-map "<localleader>ip" (evil-org-define-eol-command
+                                                 org-insert-property-drawer)
+         (:n :v) org-mode-map "<localleader>ic" (evil-org-define-eol-command
+                                                 org-insert-comment)
+         (:n :v) org-mode-map "<localleader>ii" (evil-org-define-eol-command
+                                                 org-insert-item)
+         (:n :i :e) org-mode-map "C-<return>" #'+org/insert-item-below
+         (:n :v) org-mode-map "<localleader>s" #'org-schedule
+         )
+;;;;; enable evil-org
+  (evil-org-set-key-theme)
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))

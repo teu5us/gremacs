@@ -1,0 +1,11 @@
+.lsp.*
+places
+bookmarks
+recentf
+projectile.*
+straight/build.*
+straight/eln
+straight/repos
+straight/watcher
+tramp
+transient
