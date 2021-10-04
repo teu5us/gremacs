@@ -1,12 +1,16 @@
-.lsp.*
+\.lsp*
 places
 bookmarks
 recentf
 projectile.*
-straight/build.*/
+straight/build*
+straight/build*/
+straight/build/
 straight/eln/
 straight/repos/
 straight/watcher/
+eshell/
+\.chemacs.d/
 
 *~
 *.*~
