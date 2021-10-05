@@ -57,6 +57,13 @@ Hook this in `evil-mode-hook'."
                 "SY"))
       (force-mode-line-update)))
 
+  (setq evil-normal-state-tag " [N] "
+        evil-insert-state-tag " [I] "
+        evil-visual-state-tag " [V] "
+        evil-motion-state-tag " [M] "
+        evil-operator-state-tag " [O] "
+        evil-replace-state-tag " [R] "
+        evil-emacs-state-tag " [E] ")
   (advice-add #'toggle-input-method :after #'(lambda (&rest args)
                                                (set-im-tag)))
   (add-hook 'evil-normal-state-entry-hook #'set-im-tag)
