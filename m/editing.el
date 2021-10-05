@@ -469,6 +469,8 @@ which at the moment could be a method of a family of quail input methods"
 
 ;;;; expand-region
 (use-package expand-region
-  :bind ("C-'" . er/expand-region))
+  :commands (er/expand-region)
+  :hook ((text-mode prog-mode) . (lambda ()
+                                   (local-set-key (kbd "C-'") #'er/expand-region))))
 
 ;;; editing.el ends here
