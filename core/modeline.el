@@ -15,6 +15,7 @@
               display-time-default-load-average nil)
 
 ;;;; mode-line-mule-info
+;; here we have no check if IM is active unlike in default configuration
 (setq-default mode-line-mule-info
   `(""
     (:propertize ("" current-input-method-title)
@@ -36,18 +37,19 @@ mouse-3: Describe current input method"))
     (:eval (mode-line-eol-desc))))
 
 ;;;; show system input method
+;; force setting IM title to "SY" to reflect system input method
 (defun p/cimt-system ()
   (setq current-input-method-title "SY")
   (force-mode-line-update))
 
-(defun p/cimt-nil (im)
-  (setq current-input-method-title nil))
-
-(advice-add #'activate-input-method :before #'p/cimt-nil)
 (advice-add #'deactivate-input-method :after #'p/cimt-system)
 
 ;;;;; also in evil mode
+;; also make evil mode update the IM in mode line
+
 (defun p/evil-modeline-im-setup ()
+  "Function to set up mode line input method indication in all evil states.
+Hook this in `evil-mode-hook'."
   (defun set-im-tag ()
     (when evil-mode
       (setq current-input-method-title
@@ -62,11 +64,12 @@ mouse-3: Describe current input method"))
   (add-hook 'evil-emacs-state-entry-hook #'set-im-tag))
 
 ;;;; mode-line-position
-;; remove line numbers
+;; remove line numbers from modeline if they are displayed on the side
 (when global-display-line-numbers-mode
   (line-number-mode -1))
 
 ;;;; global-mode-string
+;; display python virtual environment name
 (setq-default global-mode-string
       '(""
         (pyvenv-virtual-env-name
@@ -74,6 +77,7 @@ mouse-3: Describe current input method"))
         display-time-string battery-mode-line-string))
 
 ;;;; mode-line-modes
+;; I want modes to be displayed in brackets, not parens
 (setq-default mode-line-modes
   (let ((recursive-edit-help-echo "Recursive edit, type C-M-c to get out"))
     (list (propertize "%[" 'help-echo recursive-edit-help-echo)
@@ -102,6 +106,7 @@ mouse-3: Toggle minor modes"
 	  " ")))
 
 ;;;; mode-line-format
+;; update the whole mode line format
 (setq-default mode-line-format
               `("%e"
                 mode-line-front-space
