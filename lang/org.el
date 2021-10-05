@@ -35,8 +35,9 @@
 ;;;; evil-org
 (use-package evil-org
   :after org
+  :requires (evil)
   :diminish evil-org-mode
-  :hook (org-mode . (lambda () (evil-org-mode)))
+  :hook (org-mode . evil-org-mode)
   :config
 ;;;;; inserting stuff (from doom-emacs)
   (defun +org--insert-item (direction)

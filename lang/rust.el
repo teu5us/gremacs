@@ -7,7 +7,6 @@
   :bind (:map rust-mode-map ("C-c C-c" . rust-run)))
 
 (use-package flycheck-rust
-  :after flycheck
+  :after (flycheck rust-mode)
   :config
-  (with-eval-after-load 'rust-mode
-    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)))
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))

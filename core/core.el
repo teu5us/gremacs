@@ -208,4 +208,23 @@ The original function deletes trailing whitespace of the current line."
 (p/mod l outline)
 (p/mod l helpful)
 
+;;;; define some useful functions to map later
+(defun kill-current-buffer ()
+  (interactive)
+  (kill-buffer (buffer-name)))
+
+(defun revert-buffer-noconfirm ()
+  (interactive)
+  (revert-buffer nil t))
+
+(defun find-file-user-dir ()
+  (interactive)
+  (let ((default-directory (concat p/user-dir "/")))
+    (call-interactively #'find-file)))
+
+(defun find-file-conf-dir ()
+  (interactive)
+  (let ((default-directory user-emacs-directory))
+    (call-interactively #'find-file)))
+
 ;;; core.el ends here

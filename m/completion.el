@@ -1,8 +1,7 @@
 ;;; completion.el --- Completion configuration -*- lexical-binding: t; -*-
 
 (use-package marginalia
-  :init
-  (marginalia-mode))
+  :hook (after-init . marginalia-mode))
 
 (use-package orderless
   :after marginalia
@@ -101,8 +100,7 @@ DEFS is a plist associating completion categories to commands."
   :bind (:map lsp-mode-map ([remap xref-find-apropos] . consult-lsp-symbols)))
 
 (use-package embark
-  :after which-key
-  :demand t
+  :commands (embark-act embark-dwim embark-bindings)
   :bind
   (("C-h B" . embark-bindings)
    ("C-." . embark-act)
@@ -137,7 +135,6 @@ targets."
 
 (use-package embark-consult
   :after (embark consult)
-  :demand t
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 

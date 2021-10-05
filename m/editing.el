@@ -144,27 +144,7 @@
 ;;;; load evil-surround
 (use-package evil-surround
   :after evil
-  :init
-  (global-evil-surround-mode 1))
-
-;;;; define some useful functions to map later
-(defun kill-current-buffer ()
-  (interactive)
-  (kill-buffer (buffer-name)))
-
-(defun revert-buffer-noconfirm ()
-  (interactive)
-  (revert-buffer nil t))
-
-(defun find-file-user-dir ()
-  (interactive)
-  (let ((default-directory (concat p/user-dir "/")))
-    (call-interactively #'find-file)))
-
-(defun find-file-conf-dir ()
-  (interactive)
-  (let ((default-directory user-emacs-directory))
-    (call-interactively #'find-file)))
+  :hook (evil-mode . global-evil-surround-mode))
 
 ;;;; do basic mapping
 (:maps
@@ -200,7 +180,8 @@
          :map consult-isearch-map
          ("C-;" . iedit-mode-from-isearch)))
 
-(use-package wgrep)
+(use-package wgrep
+  :commands (wgrep-change-to-wgrep-mode))
 
 ;;;; evil additions for faster navigation
 (use-package avy
@@ -209,6 +190,7 @@
   ("M-g g" . avy-goto-line))
 
 (use-package evil-quickscope
+  :after evil
   :custom
   (evil-quickscope-cross-lines t)
   (evil-quickscope-accepted-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789йцукенгшщзхъфывапролджэячсмитьбю")
@@ -216,6 +198,7 @@
 
 (use-package evil-easymotion
   :after evil
+  :commands (evilem-map)
   :config
   (:map (:n :v) global "gs" evilem-map))
 
@@ -468,8 +451,9 @@ which at the moment could be a method of a family of quail input methods"
   (:v :o) evil-snipe-local-mode-map "Z" #'khaoos-evil-snipe-S)
 
 ;;;; create on outshine leader binding
-(with-eval-after-load 'outshine
-                      (:map (:n :v :e) global "<leader>l" outline-mode-prefix-map))
+(with-eval-after-load
+    'outshine
+  (:map (:n :v :e) global "<leader>l" outline-mode-prefix-map))
 
 ;;;; macrostep
 (use-package macrostep

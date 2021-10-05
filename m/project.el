@@ -3,7 +3,8 @@
 (use-package projectile
   :after evil
   :diminish projectile-mode
-  :config
+  :hook (after-init . projectile-mode)
+  :custom
   (setq projectile-enable-caching t)
-  (projectile-mode +1)
+  :config
   (:maps (:n :v) global "<leader>p" #'projectile-command-map))

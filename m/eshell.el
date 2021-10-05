@@ -33,10 +33,4 @@
   (advice-add #'aweshell-dedicated-open :before #'p/aweshell-dedicated-kill)
   (:maps (:n :v :i) eshell-mode-map "C-d" #'eshell-life-is-too-much
          (:n :v :i) global "<leader>oe" #'aweshell-dedicated-toggle)
-  (push "\\Aweshell:" special-display-regexps)
-  ;; (add-to-list 'display-buffer-alist
-  ;;              '("Aweshell:" (display-buffer-in-side-window)
-  ;;                (window-height . 15)
-  ;;                (side . top)
-  ;;                (window-parameters (mode-line-format . none))))
-  )
+  (push "\\Aweshell:" special-display-regexps))

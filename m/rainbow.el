@@ -9,6 +9,7 @@
 
 (use-package rainbow-mode
   :diminish
+  :commands (rainbow-mode)
   :config
   (:maps (:n :v) global "<leader>tC" #'rainbow-mode))
 
@@ -25,14 +26,13 @@
   (highlight-indent-guides-method 'character))
 
 (use-package hl-line
-  :ensure nil
   :hook
   (after-init . global-hl-line-mode))
 
 (use-package diff-hl
+  :hook (after-init . global-diff-hl-mode)
   :config
   (when (boundp 'magit-pre-refresh-hook)
     (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh))
   (when (boundp 'magit-post-refresh-hook)
-    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
-  (global-diff-hl-mode))
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))

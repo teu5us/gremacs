@@ -8,6 +8,7 @@
 ;;; Code:
 
 (use-package ranger
+  :commands (deer ranger)
   :config
   (:maps (:n :v) global "<leader>od" #'deer
          (:n :v) global "<leader>oD" #'dired

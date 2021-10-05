@@ -20,7 +20,10 @@
   (lsp-pyright-multi-root nil))
 
 (use-package pyvenv
-  :config
+  :commands (pyvenv-activate
+             pyvenv-deactivate
+             pyvenv-workon)
+  :init
   (defvar venv-alist
     '(("learning" . "~/.virtualenvs/learning")))
 

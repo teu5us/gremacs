@@ -3,9 +3,17 @@
 ;;; exwm
 (use-package exwm
   ;; :straight (:type git :host github :repo "ch11ng/exwm")
+  :commands (exwm-enable)
   :init
   (setq mouse-autoselect-window t
         focus-follows-mouse 'auto-raise)
+  (defun run-exwm ()
+    "Launch exwm displaying battery and time."
+    (interactive)
+    (progn
+      (exwm-enable)
+      (display-battery-mode 1)
+      (display-time-mode 1)))
   :config
 
   ;; (after! google-translate
@@ -15,14 +23,6 @@
   ;;       (google-translate-translate "en" "ru" text)
   ;;       (gui-set-selection nil (pop kill-ring)))))
 ;;;; function definitions
-;;;;; run exwm
-  (defun run-exwm ()
-    "Launch exwm displaying battery and time."
-    (interactive)
-    (progn
-      (exwm-enable)
-      (display-battery-mode 1)
-      (display-time-mode 1)))
 ;;;;; key functions
   (defun make-screenshot ()
     (interactive)
