@@ -25,6 +25,7 @@
  inhibit-startup-echo-area-message t)
 
 ;;; Line numbering
+(line-number-mode -1)
 (setq display-line-numbers-type 'relative)
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (add-hook 'text-mode-hook #'display-line-numbers-mode)

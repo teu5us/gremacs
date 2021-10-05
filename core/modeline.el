@@ -70,11 +70,6 @@ Hook this in `evil-mode-hook'."
   (add-hook 'evil-insert-state-entry-hook #'set-im-tag)
   (add-hook 'evil-emacs-state-entry-hook #'set-im-tag))
 
-;;;; mode-line-position
-;; remove line numbers from modeline if they are displayed on the side
-(when global-display-line-numbers-mode
-  (line-number-mode -1))
-
 ;;;; global-mode-string
 ;; display python virtual environment name
 (setq-default global-mode-string
