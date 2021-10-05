@@ -105,6 +105,9 @@ DEFS is a plist associating completion categories to commands."
   (("C-h B" . embark-bindings)
    ("C-." . embark-act)
    ("M-." . embark-dwim))
+  :init
+  (:maps (:n :v) global "C-." #'embark-act
+         (:n :v) global "M-." #'embark-dwim)
   :config
   (defun embark-which-key-indicator ()
     "An embark indicator that displays keymaps using which-key.
@@ -129,9 +132,7 @@ targets."
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil
-                 (window-parameters (mode-line-format . none))))
-  (:maps (:n :v) global "C-." #'embark-act
-         (:n :v) global "M-." #'embark-dwim))
+                 (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
   :after (embark consult)
