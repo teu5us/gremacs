@@ -6,7 +6,7 @@
 
 ;;; Code:
 
-;;; time and battery formats
+;;;; time and battery formats
 (setq-default display-time-world-time-format "[%a %d %b %R %Z]"
               display-time-format "[%a %d %b %R]"
               battery-mode-line-format "[%b%p%%: %t]"
@@ -14,7 +14,7 @@
               display-time-24hr-format t
               display-time-default-load-average nil)
 
-;;; mode-line-mule-info
+;;;; mode-line-mule-info
 (setq-default mode-line-mule-info
   `(""
     (:propertize ("" current-input-method-title)
@@ -61,19 +61,19 @@ mouse-3: Describe current input method"))
   (add-hook 'evil-insert-state-entry-hook #'set-im-tag)
   (add-hook 'evil-emacs-state-entry-hook #'set-im-tag))
 
-;;; mode-line-position
+;;;; mode-line-position
 ;; remove line numbers
 (when global-display-line-numbers-mode
   (line-number-mode -1))
 
-;;; global-mode-string
+;;;; global-mode-string
 (setq-default global-mode-string
       '(""
         (pyvenv-virtual-env-name
            ("{" pyvenv-virtual-env-name "} "))
         display-time-string battery-mode-line-string))
 
-;;; mode-line-modes
+;;;; mode-line-modes
 (setq-default mode-line-modes
   (let ((recursive-edit-help-echo "Recursive edit, type C-M-c to get out"))
     (list (propertize "%[" 'help-echo recursive-edit-help-echo)
@@ -101,7 +101,7 @@ mouse-3: Toggle minor modes"
 	  (propertize "%]" 'help-echo recursive-edit-help-echo)
 	  " ")))
 
-;;; mode-line-format
+;;;; mode-line-format
 (setq-default mode-line-format
               `("%e"
                 mode-line-front-space
