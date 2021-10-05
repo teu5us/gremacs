@@ -112,6 +112,7 @@ HLINE defines if header line should be displayed.  Default: 'none."
                ("*Org Export Dispatcher" :side bottom)
                ("*rg*" :side right)
                ("*grep*" :side right)
+               ("*Occur*" :side right)
                ("*Backtrace*" :side bottom :height 0.3)))
 
 ;;;; change quit-window to kill popups
