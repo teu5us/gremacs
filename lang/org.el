@@ -114,7 +114,9 @@
     (dotimes (_ count) (+org--insert-item 'below)))
 
 ;;;;; keys
-  (:maps (:n :v) org-mode-map "<localleader>-" #'org-ctrl-c-minus
+  (:maps (:n :v :m :o) org-mode-map "$" #'evil-end-of-line
+         (:n :v :m :o) org-mode-map "0" #'evil-digit-argument-or-evil-beginning-of-line
+         (:n :v) org-mode-map "<localleader>-" #'org-ctrl-c-minus
          (:n :v) org-mode-map "<localleader>*" #'org-ctrl-c-star
          (:n :v) org-mode-map "<localleader>/" #'org-sparse-tree
          (:n :v) org-mode-map "C-S-h" #'org-shiftleft
