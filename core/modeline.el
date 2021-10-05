@@ -123,6 +123,7 @@ mouse-3: Toggle minor modes"
                 mode-line-remote
                 mode-line-frame-identification
                 mode-line-buffer-identification
+                " "
                 mode-line-position
                 (vc-mode vc-mode)
                 " "
