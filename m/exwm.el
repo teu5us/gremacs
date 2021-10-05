@@ -211,14 +211,15 @@ mouse-2: EXWM Workspace menu.
   (exwm-systemtray-enable)
 ;;;; xim
   (require 'exwm-xim)
-  (when (featurep 'evil)
-    (evil-set-initial-state 'exwm-mode 'emacs)
-    (defvar s-space 8388640
-      "Key value for s-SPC.")
-    (defvar m-space 134217760
-      "Key value for M-SPC.")
-    (push ?\C-\\ exwm-input-prefix-keys)
-    (push m-space exwm-input-prefix-keys))
+  (add-hook 'exwm-init-hook #'(lambda ()
+                                (when (featurep 'evil)
+                                  (evil-set-initial-state 'exwm-mode 'emacs))))
+  (defvar s-space 8388640
+    "Key value for s-SPC.")
+  (defvar m-space 134217760
+    "Key value for M-SPC.")
+  (push ?\C-\\ exwm-input-prefix-keys)
+  (push m-space exwm-input-prefix-keys)
   (exwm-xim-enable)
 ;;;; randr
   (require 'exwm-randr)
