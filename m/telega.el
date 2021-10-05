@@ -2,6 +2,7 @@
 
 (use-package telega
   :commands (telega)
+  :diminish telega-root-auto-fill-mode
   :hook (telega-root-mode . (lambda ()
                               (if (featurep 'evil)
                                   (unevilize-telega)
