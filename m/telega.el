@@ -2,8 +2,13 @@
 
 (use-package telega
   :commands (telega)
-  :config
-  (with-eval-after-load 'evil
+  :hook (telega-root-mode . (lambda ()
+                              (if (featurep 'evil)
+                                  (unevilize-telega)
+                                (with-eval-after-load 'evil
+                                  (unevilize-telega)))))
+  :init
+  (defun unevilize-telega ()
     (evil-set-initial-state 'telega-root-mode 'emacs)
     (evil-set-initial-state 'telega-chat-mode 'emacs)
     (evil-set-initial-state 'telega-webpage-mode 'emacs)
