@@ -7,6 +7,48 @@
 
 ;;; Code:
 
+;;;; keybinding macros
+;; Shorter keybinding definitions
+(defmacro p/bind (keyword state)
+  (list 'defmacro keyword '(map key function)
+     (list 'list ''with-eval-after-load '''evil
+           (list 'list
+                 ''evil-define-key
+                 (list 'quote (list 'quote state))
+                 (list 'list ''quote 'map)
+                 '(kbd key)
+                 'function))))
+
+(p/bind :n normal)
+;; ==>>
+;; (defmacro :n (map key function)
+;;   `(with-eval-after-load 'evil
+;;      (evil-define-key 'normal ',map (kbd ,key) ,function)))
+
+(p/bind :v visual)
+(p/bind :e emacs)
+(p/bind :i insert)
+(p/bind :o operator)
+(p/bind :r replace)
+(p/bind :m motion)
+
+(defmacro :map (states map key function)
+  (require 'cl-lib)
+  (let ((-states (if (and (symbolp states)
+                          (eq states :a))
+                     '(:n :v :e :i :o :r :m)
+                   states)))
+    `(progn
+       ,@(cl-loop for state in -states
+                  collect (list state map key function)))))
+
+(defmacro :maps (&rest decls)
+  (require 'cl-lib)
+  `(progn
+     ,@(cl-loop for (states map key function) on decls by #'cddddr
+                collect `(:map ,states ,map ,key ,function))))
+
+
 ;;;; load undo-tree
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -25,12 +67,15 @@
 ;;;; load evil
 (use-package evil
   :after undo-tree
+  :commands (evil-mode evil-set-leader)
   :hook
+  (evil-mode . p/evil-modeline-im-setup)
   (after-init . (lambda ()
                   (evil-set-leader '(normal visual operator motion) (kbd p/evil-leader))
                   (evil-set-leader '(emacs replace insert) (kbd p/evil-emacs-leader))
                   (evil-set-leader '(normal visual operator motion) (kbd p/evil-localleader) t)
-                  (evil-set-leader '(emacs replace insert) (kbd p/evil-emacs-localleader) t)))
+                  (evil-set-leader '(emacs replace insert) (kbd p/evil-emacs-localleader) t)
+                  (evil-mode 1)))
 ;;;;; init
   :init
   (defcustom p/evil-leader "SPC"
@@ -58,7 +103,7 @@
 	    evil-split-window-below t
 	    evil-vsplit-window-right t
 	    evil-undo-system 'undo-tree
-	    evil-mode-line-format 'before
+	    evil-mode-line-format '(before . mode-line-mule-info)
 	    evil-echo-state nil
 	    evil-kill-on-visual-paste t
 	    evil-complete-all-buffers t)
@@ -67,51 +112,7 @@
   (defun p/backward-delete-word ()
     (if (bound-and-true-p evil-mode)
 	    (evil-delete-backward-word)
-      (backward-kill-word)))
-
-  ;; (evil-set-leader '(normal visual) (kbd "SPC"))
-  ;; (evil-set-leader '(emacs) (kbd "M-SPC"))
-  ;; (evil-set-leader '(normal visual) (kbd "\\") t)
-  (evil-mode 1)
-
-;;;;;;; keybinding macros
-  ;; Shorter keybinding definitions
-  (defmacro :n (map key function)
-    `(evil-define-key 'normal ',map (kbd ,key) ,function))
-
-  (defmacro :v (map key function)
-    `(evil-define-key 'visual ',map (kbd ,key) ,function))
-
-  (defmacro :i (map key function)
-    `(evil-define-key 'insert ',map (kbd ,key) ,function))
-
-  (defmacro :r (map key function)
-    `(evil-define-key 'replace ',map (kbd ,key) ,function))
-
-  (defmacro :o (map key function)
-    `(evil-define-key 'operator ',map (kbd ,key) ,function))
-
-  (defmacro :m (map key function)
-    `(evil-define-key 'motion ',map (kbd ,key) ,function))
-
-  (defmacro :e (map key function)
-    `(evil-define-key 'emacs ',map (kbd ,key) ,function))
-
-  (defmacro :map (states map key function)
-    (require 'cl-lib)
-    (let ((-states (if (and (symbolp states)
-                           (eq states :a))
-                      '(:n :v :e :i :o :r :m)
-                    states)))
-      `(progn
-         ,@(cl-loop for state in -states
-                    collect (list state map key function)))))
-
-  (defmacro :maps (&rest decls)
-    (require 'cl-lib)
-    `(progn
-       ,@(cl-loop for (states map key function) on decls by #'cddddr
-                  collect `(:map ,states ,map ,key ,function)))))
+      (backward-kill-word))))
 
 ;;;; load evil-collection
 (use-package evil-collection
@@ -165,9 +166,7 @@
     (call-interactively #'find-file)))
 
 ;;;; do basic mapping
-(with-eval-after-load 'evil
-  (:maps
-   ;; (:n :v :e) global "<leader>m" #'evil-send-localleader
+(:maps
    (:n) global "C-v" #'evil-visual-block
    :a global "<leader>fs" #'save-buffer
    :a global "<leader>." #'find-file
@@ -186,10 +185,11 @@
    :a global  "<leader>fu" #'sudo-edit
    :a global "M-y" #'yank-from-kill-ring
    :a global "C-s" #'consult-isearch
-   ))
+   )
 
 ;;;; search/replace stuff
 (use-package rg
+  :after evil
   :config
   (:maps (:n :v :e) global "<leader>sr" #'rg-menu))
 
@@ -210,7 +210,7 @@
 (use-package evil-easymotion
   :after evil
   :config
-  (:map (:n :v) global "<leader>gs" evilem-map))
+  (:map (:n :v) global "gs" evilem-map))
 
 (use-package evil-snipe
   :diminish (evil-snipe-mode
@@ -444,19 +444,27 @@ which at the moment could be a method of a family of quail input methods"
 
 ;;;;;; map redefined evil commands
 (:maps
- (:n) global "r" #'khaoos-evil-replace
- (:n :v :o) global "<leader>sc" #'evil-khaoos-avy-goto-char
- (:n :v :o) global "<leader>sC" #'evil-khaoos-avy-goto-char-2
- (:n :v :o) global "<leader>sw" #'evil-khaoos-avy-goto-word-or-subword-1
- (:n :v :o) evil-snipe-local-mode-map "f" #'khaoos-evil-find-char
- (:n :v :o) evil-snipe-local-mode-map "F" #'khaoos-evil-find-char-backward
- (:n :v :o) evil-snipe-local-mode-map "t" #'khaoos-evil-find-char-to
- (:n :v :o) evil-snipe-local-mode-map "T" #'khaoos-evil-find-char-to-backward
- (:n) evil-snipe-local-mode-map "s" #'khaoos-evil-snipe-s
- (:v :o) evil-snipe-local-mode-map "z" #'khaoos-evil-snipe-s
- (:n) evil-snipe-local-mode-map "S" #'khaoos-evil-snipe-S
- (:v :o) evil-snipe-local-mode-map "Z" #'khaoos-evil-snipe-S)
+  (:n) global "r" #'khaoos-evil-replace
+  (:n :v :o) global "<leader>sc" #'evil-khaoos-avy-goto-char
+  (:n :v :o) global "<leader>sC" #'evil-khaoos-avy-goto-char-2
+  (:n :v :o) global "<leader>sw" #'evil-khaoos-avy-goto-word-or-subword-1
+  (:n :v :o) evil-snipe-local-mode-map "f" #'khaoos-evil-find-char
+  (:n :v :o) evil-snipe-local-mode-map "F" #'khaoos-evil-find-char-backward
+  (:n :v :o) evil-snipe-local-mode-map "t" #'khaoos-evil-find-char-to
+  (:n :v :o) evil-snipe-local-mode-map "T" #'khaoos-evil-find-char-to-backward
+  (:n) evil-snipe-local-mode-map "s" #'khaoos-evil-snipe-s
+  (:v :o) evil-snipe-local-mode-map "z" #'khaoos-evil-snipe-s
+  (:n) evil-snipe-local-mode-map "S" #'khaoos-evil-snipe-S
+  (:v :o) evil-snipe-local-mode-map "Z" #'khaoos-evil-snipe-S)
 
 ;;;; create on outshine leader binding
 (with-eval-after-load 'outshine
-  (:map (:n :v :e) global "<leader>l" outline-mode-prefix-map))
+                      (:map (:n :v :e) global "<leader>l" outline-mode-prefix-map))
+
+;;;; macrostep
+(use-package macrostep
+  :bind (:map emacs-lisp-mode-map
+              ("C-c e" . macrostep-mode)
+              ("C-c C-e" . pp-macroexpand-last-sexp)))
+
+;;; editing.el ends here
