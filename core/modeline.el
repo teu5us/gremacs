@@ -73,6 +73,34 @@ mouse-3: Describe current input method"))
            ("{" pyvenv-virtual-env-name "} "))
         display-time-string battery-mode-line-string))
 
+;;; mode-line-modes
+(setq-default mode-line-modes
+  (let ((recursive-edit-help-echo "Recursive edit, type C-M-c to get out"))
+    (list (propertize "%[" 'help-echo recursive-edit-help-echo)
+	  "["
+	  `(:propertize ("" mode-name)
+			help-echo "Major mode\n\
+mouse-1: Display major mode menu\n\
+mouse-2: Show help for major mode\n\
+mouse-3: Toggle minor modes"
+			mouse-face mode-line-highlight
+			local-map ,mode-line-major-mode-keymap)
+	  '("" mode-line-process)
+	  `(:propertize ("" minor-mode-alist)
+			mouse-face mode-line-highlight
+			help-echo "Minor mode\n\
+mouse-1: Display minor mode menu\n\
+mouse-2: Show help for minor mode\n\
+mouse-3: Toggle minor modes"
+			local-map ,mode-line-minor-mode-keymap)
+	  (propertize "%n" 'help-echo "mouse-2: Remove narrowing from buffer"
+		      'mouse-face 'mode-line-highlight
+		      'local-map (make-mode-line-mouse-map
+				  'mouse-2 #'mode-line-widen))
+	  "]"
+	  (propertize "%]" 'help-echo recursive-edit-help-echo)
+	  " ")))
+
 ;;; mode-line-format
 (setq-default mode-line-format
               `("%e"
