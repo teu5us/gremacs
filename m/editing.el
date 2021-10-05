@@ -146,6 +146,18 @@
   :after evil
   :hook (evil-mode . global-evil-surround-mode))
 
+;;;; load evil-numbers
+(use-package evil-numbers
+  :after evil
+  :commands (evil-numbers/inc-at-pt
+             evil-numbers/dec-at-pt
+             evil-numbers/inc-at-pt-incremental
+             evil-numbers/dec-at-pt-incremental)
+  :init
+  (:maps (:n :v) global "+" #'evil-numbers/inc-at-pt
+         (:n :v) global "-" #'evil-numbers/dec-at-pt
+         (:n :v) global "g +" #'evil-numbers/inc-at-pt-incremental
+         (:n :v) global "g -" #'evil-numbers/dec-at-pt-incremental))
 ;;;; do basic mapping
 (:maps
    (:n) global "C-v" #'evil-visual-block
