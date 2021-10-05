@@ -467,4 +467,8 @@ which at the moment could be a method of a family of quail input methods"
               ("C-c e" . macrostep-mode)
               ("C-c C-e" . pp-macroexpand-last-sexp)))
 
+;;;; expand-region
+(use-package expand-region
+  :bind ("C-'" . er/expand-region))
+
 ;;; editing.el ends here
