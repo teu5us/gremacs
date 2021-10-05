@@ -26,22 +26,14 @@
 
 ;;; Line numbering
 (setq display-line-numbers-type 'relative)
-(global-display-line-numbers-mode +1)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'text-mode-hook #'display-line-numbers-mode)
 ;; Calculate the width of line numbering panel beforehand
 (defun p/calc-set-line-numbering-width ()
   (setq-local display-line-numbers-width
               (1+ (length (int-to-string (count-lines (point-min) (point-max)))))))
 (add-hook 'prog-mode-hook #'p/calc-set-line-numbering-width)
 (add-hook 'text-mode-hook #'p/calc-set-line-numbering-width)
-;;;; disable line numbers in certain modes
-(defun p/no-line-numbers-local ()
-  (display-line-numbers-mode -1))
-(defvar p/no-line-numbers-modes '(help-mode-hook
-                                  helpful-mode-hook))
-
-(add-hook 'after-init-hook #'(lambda ()
-                               (dolist (m p/no-line-numbers-modes)
-                                 (add-hook m #'p/no-line-numbers-local))))
 
 ;;; Smooth scrolling
 ;;;; Vertical Scroll
