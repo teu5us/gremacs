@@ -26,7 +26,7 @@
   :hook
   (org-mode . (lambda ()
                 ;; number headings
-                (org-num-mode)
+                ;; (org-num-mode)
                 ;; visually indent text
                 (org-indent-mode)
                 (diminish 'org-num-mode)
