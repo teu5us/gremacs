@@ -78,6 +78,7 @@
   (setq exwm-input-global-keys
         `(([?\s-r] . exwm-reset)
           ([?\s-w] . exwm-workspace-switch)
+          ([?\s-x] . execute-extended-command)
           (\,@ (mapcar (lambda (i)
                          `(,(kbd (format "s-%d" i)) .
                            (lambda ()
@@ -101,7 +102,7 @@
           (,(kbd "s-l") . evil-window-right)
           (,(kbd "s-j") . evil-window-down)
           (,(kbd "s-k") . evil-window-up)
-          (,(kbd "s-'") . +eshell/toggle)
+          (,(kbd "s-'") . aweshell-dedicated-toggle)
           (,(kbd "s-t") . +vterm/toggle)
           (,(kbd "M-s-t") . recreate-vterm-popup)
           (,(kbd "s-v") . counsel-set-clip)
