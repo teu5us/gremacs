@@ -78,6 +78,7 @@ HLINE defines if header line should be displayed.  Default: 'none."
                      (cons 'side side)
                      (cons 'window-height height)
                      (cons 'window-width width)
+                     (cons 'dedicated t)
                      (list 'window-parameters
                            (cons 'p/popup t)
                            (cons 'mode-line-format mline)
@@ -107,7 +108,8 @@ HLINE defines if header line should be displayed.  Default: 'none."
                ("*Customize.*" :side right :width 0.5)
                ("*Help.*" :side right :width 0.5)
                ("*Finder.*" :side right :width 0.5)
-               ("Aweshell:.*" :side top :height 0.2)
+               ("Aweshell:.*" :side top :height 0.25)
+               ("*Org Export Dispatcher" :side bottom)
                ("*rg*" :side right)
                ("*grep*" :side right)
                ("*Backtrace*" :side bottom :height 0.3)))
