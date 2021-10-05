@@ -106,7 +106,8 @@
 	    evil-mode-line-format '(before . mode-line-mule-info)
 	    evil-echo-state nil
 	    evil-kill-on-visual-paste t
-	    evil-complete-all-buffers t)
+	    evil-complete-all-buffers t
+        evil-cross-lines t)
 ;;;;; config
   :config
   (defun p/backward-delete-word ()
@@ -207,6 +208,12 @@
   ("M-g w" . avy-goto-word-0)
   ("M-g g" . avy-goto-line))
 
+(use-package evil-quickscope
+  :custom
+  (evil-quickscope-cross-lines t)
+  (evil-quickscope-accepted-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789йцукенгшщзхъфывапролджэячсмитьбю")
+  :hook ((text-mode prog-mode) . turn-on-evil-quickscope-always-mode))
+
 (use-package evil-easymotion
   :after evil
   :config
@@ -218,6 +225,9 @@
              evil-snipe-override-mode
              evil-snipe-override-local-mode)
   :after evil-easymotion
+  :custom
+  (evil-snipe-scope 'visible)
+  (evil-snipe-repeat-keys nil)
   :hook
   ((prog-mode text-mode) . evil-snipe-local-mode)
   ((prog-mode text-mode) . evil-snipe-override-local-mode)
