@@ -125,6 +125,10 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 (use-package visual-fill-column
   :demand t
   :commands (visual-fill-column-mode))
+
+;;; customize mode line
+(p/mod l modeline)
+
 ;;; Highlight TODO and stuff
 (use-package hl-todo
   :diminish hl-todo-mode
