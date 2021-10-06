@@ -231,7 +231,7 @@ By default the last line, but not the end of buffer."
 
 (use-package evil-easymotion
   :after evil
-  :commands (evilem-map)
+  :commands (evilem-map evilem-create)
   :config
   (:map (:n :v) global "gs" evilem-map))
 
@@ -240,13 +240,13 @@ By default the last line, but not the end of buffer."
              evil-snipe-local-mode
              evil-snipe-override-mode
              evil-snipe-override-local-mode)
-  :after evil-easymotion
+  :after evil
   :custom
   (evil-snipe-scope 'visible)
   (evil-snipe-repeat-keys nil)
   :hook
-  ((prog-mode text-mode) . evil-snipe-local-mode)
-  ((prog-mode text-mode) . evil-snipe-override-local-mode)
+  ((prog-mode text-mode org-mode) . evil-snipe-local-mode)
+  ((prog-mode text-mode org-mode) . evil-snipe-override-local-mode)
   :config
   (define-key evil-snipe-parent-transient-map (kbd "C-;")
     (evilem-create 'evil-snipe-repeat
