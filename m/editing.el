@@ -113,7 +113,28 @@
   (defun p/backward-delete-word ()
     (if (bound-and-true-p evil-mode)
 	    (evil-delete-backward-word)
-      (backward-kill-word))))
+      (backward-kill-word)))
+  (defun p/goto--line (count)
+    (let* ((col (current-column)))
+      (goto-char (point-min))
+      (forward-line (1- count))
+      (goto-char (let ((tarcol (+ (line-beginning-position)
+                                  col)))
+                   (if (> tarcol (line-end-position))
+                       (line-end-position)
+                     tarcol)))))
+  (evil-define-motion p/evil-goto-line (count)
+    "Go to line COUNT preserving column if possible.
+By default the last line, but not the end of buffer."
+    :jump t
+    :type line
+    (if (null count)
+        (with-no-warnings
+          (p/goto--line (count-lines (point-min)
+                                     (point-max))))
+      (p/goto--line count)))
+  (advice-add #'evil-goto-line :override #'p/evil-goto-line)
+  )
 
 ;;;; load evil-collection
 (use-package evil-collection
