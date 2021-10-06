@@ -140,7 +140,6 @@ targets."
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package company
-  :after orderless
   :diminish company-mode
   :custom
   (company-idle-delay 0)
@@ -163,5 +162,8 @@ targets."
 				    company-files
 				    company-keywords
 				    company-yasnippet)))
+  (:maps (:i) global "C-x C-f" #'company-files
+         (:i) global "C-x C-o" #'company-capf
+         (:i) global "C-x C-y" #'company-yasnippet)
   :hook
   (after-init . global-company-mode))
