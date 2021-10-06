@@ -47,6 +47,7 @@
   (sp-show-pair-delay 0)
 ;;;;; hooks
   :hook
+  ((text-mode org-mode) . smartparens-mode)
   ((sly-mrepl-mode prog-mode)
    .
    (lambda ()
