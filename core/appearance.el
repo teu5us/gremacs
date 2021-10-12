@@ -59,8 +59,8 @@
 (display-time-mode 1)
 (display-battery-mode 1)
 
-;;; Don't automatically switch to buffer visible in current frame
-(setq switch-to-prev-buffer-skip 'this)
+;; ;;; Don't automatically switch to buffer visible in current frame
+;; (setq switch-to-prev-buffer-skip nil)
 
 ;;; Use visual lines with word wrapping
 (setq-default truncate-lines t
@@ -100,6 +100,7 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 
 ;;; Hide modes from mode-line
 (use-package diminish
+  :commands (diminish)
   :config
   (diminish 'visual-line-mode)
   (diminish 'eldoc-mode))
@@ -116,7 +117,6 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 
 ;;; Automatically visually fill text
 (use-package visual-fill-column
-  :demand t
   :commands (visual-fill-column-mode))
 
 ;;; customize mode line
