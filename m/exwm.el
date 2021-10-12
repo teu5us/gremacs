@@ -18,12 +18,6 @@
       (display-time-mode 1)))
   :config
 
-  ;; (after! google-translate
-  ;;   (defun google-translate-from-selection (text)
-  ;;     (interactive (list (gui-get-primary-selection)))
-  ;;     (let ((google-translate-output-destination 'kill-ring))
-  ;;       (google-translate-translate "en" "ru" text)
-  ;;       (gui-set-selection nil (pop kill-ring)))))
 ;;;; function definitions
 ;;;;; key functions
   (defun make-screenshot ()
