@@ -103,7 +103,7 @@
           (,(kbd "s-j") . evil-window-down)
           (,(kbd "s-k") . evil-window-up)
           (,(kbd "s-'") . aweshell-dedicated-toggle)
-          (,(kbd "s-t") . +vterm/toggle)
+          (,(kbd "s-t") . vterm-popup)
           (,(kbd "M-s-t") . recreate-vterm-popup)
           (,(kbd "s-v") . counsel-set-clip)
           (,(kbd "s-a") . switch-system-im)
