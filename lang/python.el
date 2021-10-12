@@ -1,8 +1,6 @@
 ;;; python.el --- python config -*- lexical-binding: t; -*-
 
 (use-package python-mode
-  :ensure nil
-  :after flycheck
   :mode "\\.py\\'"
   :bind (:map python-mode-map
               ("<backspace>" . backward-delete-char)

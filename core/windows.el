@@ -2,7 +2,6 @@
 
 ;;;; ace-window
 (use-package ace-window
-  :demand t
   :bind ("C-x o" . ace-window))
 
 ;;;; define popups

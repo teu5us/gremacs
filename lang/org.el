@@ -36,6 +36,7 @@
 (use-package evil-org
   :after org
   :requires (evil)
+  :commands (evil-org-define-eol-command)
   :diminish evil-org-mode
   :hook (org-mode . evil-org-mode)
   :config

@@ -8,9 +8,8 @@
 
 ;;;; flycheck
 (use-package flycheck
-  :defer t
   :diminish
-  :hook (after-init . global-flycheck-mode)
+  :hook (prog-mode . flycheck-mode)
   :custom
   (flycheck-global-modes
    '(not outline-mode diff-mode shell-mode eshell-mode term-mode))

@@ -20,7 +20,7 @@ code."
 (use-package evil-markdown
   :diminish evil-markdown-mode
   :straight (:type git :host github :repo "Somelauw/evil-markdown")
-  :after (evil markdown-mode))
+  :after evil)
 
 (use-package markdown-toc
   :after markdown-mode)
