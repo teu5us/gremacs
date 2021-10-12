@@ -45,7 +45,8 @@ frame."
     (display-buffer-in-side-window buffer alist)))
 
 ;;;;; define popup rules
-(cl-defun p/defpopup (key &key
+(cl-defun p/defpopup (key &optional apply
+                          &key
                           (side 'bottom)
                           (height 20)
                           (width 60)
@@ -82,14 +83,15 @@ HLINE defines if header line should be displayed.  Default: 'none."
                      (list 'window-parameters
                            (cons 'p/popup t)
                            (cons 'mode-line-format mline)
-                           (cons 'header-line-format hline)))))
+                           (cons 'header-line-format hline))))
+  (when apply (p/push-dba)))
 
-;;;;; enable and restore default rules
-(defun p/defpopups (specs)
+(defun p/defpopups (specs &optional apply)
   "Run `p/defpopup' for each element of SPECS."
   (dolist (spec specs)
-    (apply #'p/defpopup spec)))
+    (apply #'p/defpopup (car spec) apply (cdr spec))))
 
+;;;;; enable and restore default rules
 (defun p/restore-dba ()
   (interactive)
   (when p/dba-backup
