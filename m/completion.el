@@ -147,7 +147,9 @@ targets."
   (company-minimum-prefix-length 1)
   (company-selection-wrap-around t)
   :bind (:map company-active-map
-	      ("C-f" . #'company-filter-candidates))
+	          ("C-f" . #'company-filter-candidates)
+              ("C-k" . nil)
+              ("C-j" . nil))
   :config
   (defun just-one-face (fn &rest args)
     (let ((orderless-match-faces [completions-common-part]))
@@ -155,13 +157,13 @@ targets."
   (advice-add 'company-capf--candidates :around #'just-one-face)
   (defun p/:company-backends (hook backends)
     (add-hook hook #'(lambda ()
-		       (set (make-local-variable 'company-backends)
-			    backends))))
+		               (set (make-local-variable 'company-backends)
+			                backends))))
   (p/:company-backends 'emacs-lisp-mode-hook
-		       '((:separate company-capf
-				    company-files
-				    company-keywords
-				    company-yasnippet)))
+		               '((:separate company-capf
+				                    company-files
+				                    company-keywords
+				                    company-yasnippet)))
   (:maps (:i) global "C-x C-f" #'company-files
          (:i) global "C-x C-o" #'company-capf
          (:i) global "C-x C-y" #'company-yasnippet)
