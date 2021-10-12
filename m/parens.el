@@ -9,6 +9,7 @@
 ;;;; load smartparens
 (use-package smartparens
   :diminish smartparens-mode
+  :commands (smartparens-mode smartparens-strict-mode)
 ;;;;; config
   :config
   (require 'smartparens-config)
