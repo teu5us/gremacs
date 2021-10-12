@@ -12,6 +12,7 @@
   (read-process-output-max (* 1024 1024))
   (lsp-keep-workspace-alive nil)
   (lsp-eldoc-hook nil)
+  (lsp-headerline-breadcrumb-enable nil)
   :bind (:map lsp-mode-map ("F" . lsp-format-buffer))
   :init
   (defun p/lsp-deferred-unless-client ()
