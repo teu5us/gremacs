@@ -117,13 +117,24 @@ mouse-3: Toggle minor modes"
                 mode-line-modified
                 mode-line-remote
                 mode-line-frame-identification
-                mode-line-buffer-identification
                 " "
                 mode-line-position
-                (vc-mode vc-mode)
                 " "
                 mode-line-modes
                 mode-line-misc-info
                 mode-line-end-spaces))
+
+;;;; header-line-format
+(setq-default header-line-format
+              '("%e"
+                mode-line-front-space
+                mode-line-buffer-identification
+                (vc-mode vc-mode)
+                mode-line-end-spaces
+                ))
+
+;;;;; add a box around header line
+(custom-theme-set-faces 'user
+                        '(header-line ((t (:box t)))))
 
 ;;; modeline.el ends here
