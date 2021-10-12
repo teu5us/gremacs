@@ -182,6 +182,7 @@ By default the last line, but not the end of buffer."
   ;; :after expand-region
   :bind ("C-," . embrace-commander)
   :config
+  (:maps (:n :v :e) global "C-," #'embrace-commander)
   (defun p/embrace--hide-help-buffer ()
     (and (buffer-live-p embrace--help-buffer)
          (let ((win (get-buffer-window embrace--help-buffer)))
@@ -189,6 +190,7 @@ By default the last line, but not the end of buffer."
            (set-window-parameter
             win 'quit-restore
             (list 'window 'window (selected-window) embrace--help-buffer))
+           (deactivate-mark)
            (with-selected-window (select-window win)
              (quit-window)))))
   (advice-add #'embrace--hide-help-buffer :override #'p/embrace--hide-help-buffer)
