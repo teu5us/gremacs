@@ -30,7 +30,7 @@
   (after-init . global-hl-line-mode))
 
 (use-package diff-hl
-  :hook (after-init . global-diff-hl-mode)
+  :hook ((prog-mode text-mode) . diff-hl-mode)
   :config
   (when (boundp 'magit-pre-refresh-hook)
     (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh))
