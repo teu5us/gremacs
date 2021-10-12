@@ -2,7 +2,6 @@
 
 ;;;; load writeroom
 (use-package writeroom-mode
-  :after visual-fill-column
   :commands (writeroom-mode)
 ;;;;; customs
   :custom
@@ -11,12 +10,16 @@
   (writeroom-header-line t)
   (writeroom-maximize-window nil)
   (writeroom-width 80)
+  :init
+  (defun p/writeroom ()
+    (interactive)
+    (writeroom-mode 'toggle))
 ;;;;; hooks
   :hook
   (writeroom-mode-disable . (lambda ()
                               (visual-fill-column-mode -1)))
   (prog-mode . (lambda ()
-                 (:maps (:n :v) local "<leader>tz" #'writeroom-mode)))
+                 (:maps (:n :v) local "<leader>tz" #'p/writeroom)))
   (text-mode . (lambda ()
-                 (writeroom-mode)
-                 (:maps  (:n :v) local "<leader>tz" #'writeroom-mode))))
+                 (p/writeroom)
+                 (:maps  (:n :v) local "<leader>tz" #'p/writeroom))))
