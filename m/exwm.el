@@ -4,6 +4,8 @@
 (use-package exwm
   ;; :straight (:type git :host github :repo "ch11ng/exwm")
   :commands (exwm-enable)
+  :hook (exwm-mode . (lambda ()
+                       (setq-local x-alt-keysym 'alt)))
   :init
   (setq mouse-autoselect-window t
         focus-follows-mouse 'auto-raise)
@@ -215,12 +217,13 @@ mouse-2: EXWM Workspace menu.
   (add-hook 'exwm-init-hook #'(lambda ()
                                 (when (featurep 'evil)
                                   (evil-set-initial-state 'exwm-mode 'emacs))))
-  (defvar s-space 8388640
+  (defvar s-space (aref [?\s-\ ] 0)
     "Key value for s-SPC.")
-  (defvar m-space 134217760
+  (defvar m-space (aref [?\M-\ ] 0)
     "Key value for M-SPC.")
   (push ?\C-\\ exwm-input-prefix-keys)
   (push m-space exwm-input-prefix-keys)
+  (push s-space exwm-input-prefix-keys)
   (exwm-xim-enable)
 ;;;; randr
   (require 'exwm-randr)
