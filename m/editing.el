@@ -68,16 +68,26 @@
 (use-package evil
   :after undo-tree
   :commands (evil-mode evil-set-leader)
+  :bind
+  ("<leader>" . leader-map)
+  ;; ("<localleader>" . localleader-map)
   :hook
   (evil-mode . p/evil-modeline-im-setup)
   (after-init . (lambda ()
-                  (evil-set-leader '(normal visual operator motion) (kbd p/evil-leader))
-                  (evil-set-leader '(emacs replace insert) (kbd p/evil-emacs-leader))
+                  (:maps (:n :v :o :m) global "SPC" 'leader-map
+                         ;; (:n :v :o :m) global "SPC m" 'localleader-map
+                         (:e :r :i) global "M-SPC" 'leader-map
+                         ;; (:e :r :i) global "M-SPC m" 'localleader-map
+                         )
+                  ;; (evil-set-leader '(normal visual operator motion) (kbd p/evil-leader))
+                  ;; (evil-set-leader '(emacs replace insert) (kbd p/evil-emacs-leader))
                   (evil-set-leader '(normal visual operator motion) (kbd p/evil-localleader) t)
                   (evil-set-leader '(emacs replace insert) (kbd p/evil-emacs-localleader) t)
                   (evil-mode 1)))
 ;;;;; init
   :init
+  (define-prefix-command 'leader-map)
+  (define-prefix-command 'localleader-map)
   (defcustom p/evil-leader "SPC"
     "Evil-mode leader key."
     :type 'string
@@ -167,6 +177,28 @@ By default the last line, but not the end of buffer."
   :after evil
   :hook (evil-mode . global-evil-surround-mode))
 
+;;;;; complement with embrace
+(use-package embrace
+  ;; :after expand-region
+  :bind ("C-," . embrace-commander)
+  :config
+  (defun p/embrace--hide-help-buffer ()
+    (and (buffer-live-p embrace--help-buffer)
+         (let ((win (get-buffer-window embrace--help-buffer)))
+           ;; Set `quit-restore' window parameter to fix evil-embrace/#5
+           (set-window-parameter
+            win 'quit-restore
+            (list 'window 'window (selected-window) embrace--help-buffer))
+           (with-selected-window (select-window win)
+             (quit-window)))))
+  (advice-add #'embrace--hide-help-buffer :override #'p/embrace--hide-help-buffer)
+  :hook (org-mode . embrace-org-mode-hook))
+
+(use-package evil-embrace
+  ;; :after (embrace evil-surround)
+  :hook
+  (evil-surround-mode . evil-embrace-enable-evil-surround-integration))
+
 ;;;; load evil-numbers
 (use-package evil-numbers
   :after evil
@@ -181,6 +213,8 @@ By default the last line, but not the end of buffer."
          (:n :v) global "g -" #'evil-numbers/dec-at-pt-incremental))
 ;;;; do basic mapping
 (:maps
+   :a global "<leader>" 'leader-map
+   ;; :a global "<localleader>" 'localleader-map
    (:n) global "C-v" #'evil-visual-block
    :a global "<leader>fs" #'save-buffer
    :a global "<leader>." #'find-file
@@ -221,6 +255,9 @@ By default the last line, but not the end of buffer."
   :bind
   ("M-g w" . avy-goto-word-0)
   ("M-g g" . avy-goto-line))
+
+(use-package evil-matchit
+  :hook (after-init . global-evil-matchit-mode))
 
 (use-package evil-quickscope
   :after evil
