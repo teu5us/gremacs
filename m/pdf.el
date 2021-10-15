@@ -28,12 +28,14 @@
   :config
   (defun p/pdf-scroll-forward (&optional arg)
     (interactive)
-    (if (eq pdf-view-display-size 'fit-height)
+    (if (or (not pdf-continuous-scroll-mode)
+            (eq pdf-view-display-size 'fit-height))
         (evil-collection-pdf-view-next-line-or-next-page arg)
       (pdf-continuous-scroll-forward arg)))
   (defun p/pdf-scroll-backward (&optional arg)
     (interactive)
-    (if (eq pdf-view-display-size 'fit-height)
+    (if (or (not pdf-continuous-scroll-mode)
+            (eq pdf-view-display-size 'fit-height))
         (evil-collection-pdf-view-previous-line-or-previous-page arg)
       (pdf-continuous-scroll-backward arg)))
 ;;;;;; override broken scrolling
