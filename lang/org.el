@@ -34,11 +34,40 @@
 
 ;;;; evil-org
 (use-package evil-org
-  :after org
-  :requires (evil)
+  :after (evil org)
   :commands (evil-org-define-eol-command)
   :diminish evil-org-mode
   :hook (org-mode . evil-org-mode)
+  :init
+;;;;; keys
+  (add-hook 'org-mode-hook
+            #'(lambda ()
+                (:maps (:n :v :m :o) local "$" #'evil-end-of-line ;
+                       (:n :v :m :o) local "0" #'evil-digit-argument-or-evil-beginning-of-line
+                       (:n :v) local "<localleader>-" #'org-ctrl-c-minus
+                       (:n :v) local "<localleader>*" #'org-ctrl-c-star
+                       (:n :v) local "<localleader>/" #'org-sparse-tree
+                       (:n :v) local "C-S-h" #'org-shiftleft
+                       (:n :v) local "C-S-l" #'org-shiftright
+                       (:n :v) local "<localleader>iH" (evil-org-define-eol-command
+                                                        org-insert-heading)
+                       (:n :v) local "<localleader>ih" (evil-org-define-eol-command
+                                                        org-insert-heading-respect-content)
+                       (:n :v) local "<localleader>is" (evil-org-define-eol-command
+                                                        org-insert-subheading)
+                       (:n :v) local "<localleader>il" (evil-org-define-eol-command
+                                                        org-insert-link)
+                       (:n :v) local "<localleader>id" (evil-org-define-eol-command
+                                                        org-insert-drawer)
+                       (:n :v) local "<localleader>ip" (evil-org-define-eol-command
+                                                        org-insert-property-drawer)
+                       (:n :v) local "<localleader>ic" (evil-org-define-eol-command
+                                                        org-insert-comment)
+                       (:n :v) local "<localleader>ii" (evil-org-define-eol-command
+                                                        org-insert-item)
+                       (:n :i :e) local "C-<return>" #'+org/insert-item-below
+                       (:n :v) local "<localleader>s" #'org-schedule
+                       )))
   :config
 ;;;;; inserting stuff (from doom-emacs)
   (defun +org--insert-item (direction)
@@ -115,33 +144,6 @@
     (interactive "p")
     (dotimes (_ count) (+org--insert-item 'below)))
 
-;;;;; keys
-  (:maps (:n :v :m :o) org-mode-map "$" #'evil-end-of-line
-         (:n :v :m :o) org-mode-map "0" #'evil-digit-argument-or-evil-beginning-of-line
-         (:n :v) org-mode-map "<localleader>-" #'org-ctrl-c-minus
-         (:n :v) org-mode-map "<localleader>*" #'org-ctrl-c-star
-         (:n :v) org-mode-map "<localleader>/" #'org-sparse-tree
-         (:n :v) org-mode-map "C-S-h" #'org-shiftleft
-         (:n :v) org-mode-map "C-S-l" #'org-shiftright
-         (:n :v) org-mode-map "<localleader>iH" (evil-org-define-eol-command
-                                                 org-insert-heading)
-         (:n :v) org-mode-map "<localleader>ih" (evil-org-define-eol-command
-                                                 org-insert-heading-respect-content)
-         (:n :v) org-mode-map "<localleader>is" (evil-org-define-eol-command
-                                                 org-insert-subheading)
-         (:n :v) org-mode-map "<localleader>il" (evil-org-define-eol-command
-                                                 org-insert-link)
-         (:n :v) org-mode-map "<localleader>id" (evil-org-define-eol-command
-                                                 org-insert-drawer)
-         (:n :v) org-mode-map "<localleader>ip" (evil-org-define-eol-command
-                                                 org-insert-property-drawer)
-         (:n :v) org-mode-map "<localleader>ic" (evil-org-define-eol-command
-                                                 org-insert-comment)
-         (:n :v) org-mode-map "<localleader>ii" (evil-org-define-eol-command
-                                                 org-insert-item)
-         (:n :i :e) org-mode-map "C-<return>" #'+org/insert-item-below
-         (:n :v) org-mode-map "<localleader>s" #'org-schedule
-         )
 ;;;;; enable evil-org
   (evil-org-set-key-theme)
   (require 'evil-org-agenda)
