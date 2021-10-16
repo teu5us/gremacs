@@ -61,5 +61,5 @@
                                   sly-mrepl-mode)))
          (progn
            (p/load-lispy-parens-bindings)
-           (set (make-local-variable 'evil-move-beyond-eol) t))
+           (setq-local evil-move-beyond-eol t))
        (:maps (:n :v :i) local "M-w" #'sp-slurp-hybrid-sexp)))))
