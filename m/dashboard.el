@@ -3,19 +3,21 @@
 ;;;; page-break-lines
 (use-package page-break-lines
   :diminish
-  :init (global-page-break-lines-mode))
+  :hook (after-init . global-page-break-lines-mode))
 
 ;;;; dashboard
 (use-package dashboard
   :diminish dashboard-mode
   :hook
-  (after-init . dashboard-setup-startup-hook)
-  (kill-buffer . p/dashboard-refresh-buffer)
+  (after-init . (lambda ()
+                  (dashboard-setup-startup-hook)
+                  (advice-add #'find-file :after #'p/dashboard-refresh-buffer)))
   :config
   (push "*dashboard*" p/buffer-predicate-names)
-;;;;; automatically refresh dashboard in the background (see kill-buffer hook above)
-  (defun p/dashboard-refresh-buffer ()
+;;;;; automatically refresh dashboard in the background (see hook above)
+  (defun p/dashboard-refresh-buffer (&rest args)
     "Refresh dashboard buffer without switching to it."
+    (defvar dahsboard-force-refresh)
     (let ((dashboard-force-refresh t))
       (save-current-buffer
         (set-buffer (get-buffer-create dashboard-buffer-name))
