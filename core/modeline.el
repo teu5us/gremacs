@@ -50,7 +50,7 @@ mouse-3: Describe current input method"))
 (defun p/evil-modeline-im-setup ()
   "Function to set up mode line input method indication in all evil states.
 Hook this in `evil-mode-hook'."
-  (defun set-im-tag ()
+  (defun p/evil-set-im-tag ()
     (when evil-mode
       (setq current-input-method-title
             (or (cadddr (assoc-string evil-input-method input-method-alist))
@@ -65,10 +65,20 @@ Hook this in `evil-mode-hook'."
         evil-replace-state-tag " [R] "
         evil-emacs-state-tag " [E] ")
   (advice-add #'toggle-input-method :after #'(lambda (&rest args)
-                                               (set-im-tag)))
-  (add-hook 'evil-normal-state-entry-hook #'set-im-tag)
-  (add-hook 'evil-insert-state-entry-hook #'set-im-tag)
-  (add-hook 'evil-emacs-state-entry-hook #'set-im-tag))
+                                               (p/evil-set-im-tag)))
+  (add-hook 'evil-normal-state-entry-hook #'p/evil-set-im-tag)
+  (add-hook 'evil-insert-state-entry-hook #'p/evil-set-im-tag)
+  (add-hook 'evil-emacs-state-entry-hook #'p/evil-set-im-tag))
+
+;;;;; also in boon mode
+(defun p/boon-modeline-im-setup ()
+  (defun p/boon-set-im-tag ()
+    (when (or boon-mode boon-local-mode)
+      (setq current-input-method-title
+            (or (cadddr (assoc-string boon-input-method input-method-alist))
+                "SY"))
+      (force-mode-line-update)))
+  (advice-add #'deactivate-input-method :after #'p/boon-set-im-tag))
 
 ;;;; global-mode-string
 ;; display python virtual environment name

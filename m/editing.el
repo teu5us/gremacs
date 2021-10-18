@@ -90,7 +90,8 @@
     (toggle-input-method)
     (boon-set-command-state))
   :config
-  (require 'boon-dvorak))
+  (require 'boon-dvorak)
+  (p/boon-modeline-im-setup))
 
 ;;;; load evil
 (use-package evil
