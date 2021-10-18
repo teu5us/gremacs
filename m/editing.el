@@ -64,12 +64,41 @@
   (text-mode . (lambda ()
                  (:maps (:n :v :e) local "<leader>ou" #'undo-tree-visualize))))
 
+;;;; load boon
+(use-package boon
+  :demand t
+  :hook
+  (evil-emacs-state-entry . turn-on-boon-mode)
+  (evil-emacs-state-exit . turn-off-boon-mode)
+  :functions (boon-set-insert-like-state
+              boon-set-command-state)
+  :bind (:map boon-command-map
+              ("C-." . embark-act)
+              ("C-\\" . p/boon-toggle-im))
+  :init
+  (defun p/check-for-boon (f &rest r)
+    (when (or boon-mode boon-local-mode)
+      (activate-input-method boon-input-method)
+      (prog1
+          (apply f r)
+        (deactivate-input-method))))
+  (advice-add #'read-char :around #'p/check-for-boon)
+
+  (defun p/boon-toggle-im ()
+    (interactive)
+    (boon-set-insert-like-state)
+    (toggle-input-method)
+    (boon-set-command-state))
+  :config
+  (require 'boon-dvorak))
+
 ;;;; load evil
 (use-package evil
   :after undo-tree
   :commands (evil-mode evil-set-leader)
   :bind
   ("<leader>" . leader-map)
+  ("M-SPC" . leader-map)
   ;; ("<localleader>" . localleader-map)
   :hook
   (evil-mode . p/evil-modeline-im-setup)
