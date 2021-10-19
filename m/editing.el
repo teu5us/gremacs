@@ -56,6 +56,7 @@
   :custom
   (undo-tree-visualizer-diff t)
   (undo-tree-visualizer-timestamps t)
+  (undo-tree-auto-save-history t)
   :config
   (global-undo-tree-mode)
   :hook
