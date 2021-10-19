@@ -288,9 +288,38 @@ By default the last line, but not the end of buffer."
 
 ;;;; evil additions for faster navigation
 (use-package avy
-  :bind
-  ("M-g w" . avy-goto-word-0)
-  ("M-g g" . avy-goto-line))
+  :commands
+  (avy-goto-char
+   avy-goto-word-1
+   avy-goto-word-0
+   avy-goto-line
+   avy-goto-end-of-line
+   avy-move-line
+   avy-move-region
+   avy-kill-whole-line
+   avy-kill-region
+   avy-copy-line
+   avy-copy-region)
+  :init
+  (global-set-key (kbd "C-x g")
+                  (defhydra hydra-avy (:exit t :hint nil)
+                    "
+ Line^^       Region^^        Goto
+----------------------------------------------------------
+ [_y_] yank   [_Y_] yank      [_c_] char        ^^
+ [_m_] move   [_M_] move      [_w_] word        [_W_] any word
+ [_k_] kill   [_K_] kill      [_l_] line        [_L_] end of line"
+                    ("c" avy-goto-char)
+                    ("w" avy-goto-word-1)
+                    ("W" avy-goto-word-0)
+                    ("l" avy-goto-line)
+                    ("L" avy-goto-end-of-line)
+                    ("m" avy-move-line)
+                    ("M" avy-move-region)
+                    ("k" avy-kill-whole-line)
+                    ("K" avy-kill-region)
+                    ("y" avy-copy-line)
+                    ("Y" avy-copy-region))))
 
 (use-package evil-matchit
   :hook (after-init . global-evil-matchit-mode))
