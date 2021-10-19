@@ -10,6 +10,15 @@
 (use-package smartparens
   :diminish smartparens-mode
   :commands (smartparens-mode smartparens-strict-mode)
+  :init
+  (defun p/lisp? ()
+    (member major-mode '(emacs-lisp-mode
+                         lisp-mode
+                         scheme-mode
+                         hy-mode
+                         lfe-mode
+                         clojure-mode
+                         sly-mrepl-mode)))
 ;;;;; config
   :config
   (require 'smartparens-config)
@@ -39,6 +48,55 @@
            (:n :v :i) local "M-[" #'sp-backward-slurp-sexp
            (:n :v :i) local "M-{" #'sp-backward-barf-sexp
            (:n :v :i) local "M-/" #'sp-splice-sexp))
+;;;;;; define a hydra for lispy keys
+  (defhydra hydra-sp (:pre (hydra-set-property 'hydra-sp :verbosity 0)
+                      :color red
+                      :foreign-keys warn
+                      :exit nil)
+    "
+
+                                   --- LISP StructEd ---
+----------------------------------------------------------------------------------------
+
+"
+    ("a" sp-beginning-of-sexp "beginning of sexp" :column "Movement")
+    ("d" sp-kill-symbol "kill sym")
+    ("D" sp-backward-kill-symbol "backward kill sym")
+    ("e" sp-end-of-sexp "end of sexp")
+    ("f" sp-forward-symbol "forward sym")
+    ("b" sp-backward-symbol "backward sym")
+    ("n" sp-forward-sexp "forward sexp")
+    ("p" sp-backward-sexp "backward sexp")
+    ("o" sp-up-sexp "up sexp")
+    ("O" sp-backward-up-sexp "backward down sexp")
+    ("I" sp-down-sexp "up sexp")
+    ("i" sp-backward-down-sexp "backward down sexp")
+
+    ("cc" sp-clone-sexp "clone" :column "Actions")
+    ("ci" sp-change-inner "change inner")
+    ("ce" sp-change-enclosing "change enclosing")
+    ("xa" sp-absorb-sexp "absorb")
+    ("xe" sp-emit-sexp "emit")
+    ("xE" eval-last-sexp "eval")
+    ("xj" sp-join-sexp "join")
+    ("xr" sp-raise-sexp "raise")
+    ("xs" sp-split-sexp "split")
+    ("x/" sp-splice-sexp "splice")
+    (";" sp-comment "comment")
+    ("<tab>" indent-sexp "indent sexp")
+
+    ("h" sp-slurp-hybrid-sexp "slurp hybrid" :exit t :column "Slurp/Barf")
+    ("]" sp-forward-slurp-sexp "slurp forward")
+    ("}" sp-forward-barf-sexp "barf forward")
+    ("[" sp-backward-slurp-sexp "slurp backward")
+    ("{" sp-backward-barf-sexp "barf backward")
+    ("(" sp-kill-sexp "kill sexp")
+    (")" sp-backward-kill-sexp "backward kill sexp")
+
+    ("?" (hydra-set-property 'hydra-sp :verbosity 2) "help" :column "Etc")
+    (":" execute-extended-command)
+    ("q" nil "quit" :color blue)
+    ("<escape>" nil "quit" :color blue))
 ;;;;;; highlight matching parens
   (when show-paren-mode
     (show-paren-mode -1))
@@ -53,13 +111,9 @@
    .
    (lambda ()
      (smartparens-strict-mode)
-     (if (or (derived-mode-p 'lisp-data-mode)
-             (member major-mode '(scheme-mode
-                                  hy-mode
-                                  lfe-mode
-                                  clojure-mode
-                                  sly-mrepl-mode)))
+     (if (p/lisp?)
          (progn
+           (local-set-key (kbd "M-z") #'hydra-sp/body)
            (p/load-lispy-parens-bindings)
            (setq-local evil-move-beyond-eol t))
        (:maps (:n :v :i) local "M-w" #'sp-slurp-hybrid-sexp)))))
