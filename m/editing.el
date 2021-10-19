@@ -78,6 +78,7 @@
               ("C-\\" . p/boon-toggle-im))
   :custom
   (boon-default-cursor-type 'box)
+  (boon-input-cursor-type 'bar)
   :init
   (defun p/check-for-boon (f &rest r)
     (if (not (or boon-mode boon-local-mode))
