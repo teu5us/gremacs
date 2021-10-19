@@ -9,6 +9,11 @@
                                 (with-eval-after-load 'evil
                                   (unevilize-telega)))))
   :init
+  (dolist (m '(telega-root-mode
+               telega-chat-mode
+               telega-webpage-mode
+               telega-image-mode))
+    (push m boon-special-mode-list))
   (defun unevilize-telega ()
     (evil-set-initial-state 'telega-root-mode 'emacs)
     (evil-set-initial-state 'telega-chat-mode 'emacs)
