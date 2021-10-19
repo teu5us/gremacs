@@ -227,4 +227,8 @@ The original function deletes trailing whitespace of the current line."
   (let ((default-directory user-emacs-directory))
     (call-interactively #'find-file)))
 
+;;;; load hydra
+(use-package hydra
+  :commands (defhydra))
+
 ;;; core.el ends here
