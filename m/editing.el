@@ -67,18 +67,21 @@
 
 ;;;; load boon
 (use-package boon
-  :demand t
   :hook
   (evil-emacs-state-entry . turn-on-boon-mode)
   (evil-emacs-state-exit . turn-off-boon-mode)
   :functions (boon-set-insert-like-state
               boon-set-command-state)
   :bind (:map boon-command-map
+              ("<backspace>" . backward-delete-char)
               ("C-." . embark-act)
               ("C-\\" . p/boon-toggle-im))
+  :custom
+  (boon-default-cursor-type 'box)
   :init
   (defun p/check-for-boon (f &rest r)
-    (when (or boon-mode boon-local-mode)
+    (if (not (or boon-mode boon-local-mode))
+        (apply f r)
       (activate-input-method boon-input-method)
       (prog1
           (apply f r)
