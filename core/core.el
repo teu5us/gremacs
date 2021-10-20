@@ -229,6 +229,23 @@ The original function deletes trailing whitespace of the current line."
 
 ;;;; load hydra
 (use-package hydra
-  :commands (defhydra))
+  :commands (defhydra)
+  :config
+  (defhydra hydra-tab-bar ()
+    "Tab Bar Operations"
+    ("t" tab-new "Create a new tab" :column "Creation")
+    ("d" dired-other-tab "Open Dired in another tab")
+    ("f" find-file-other-tab "Find file in another tab")
+    ("x" tab-close "Close current tab")
+    ("m" tab-move "Move current tab" :column "Management")
+    ("R" tab-rename "Rename Tab")
+    ("h" tab-bar-mode "Show/Hide Tab Bar" :exit t)
+    ("<return>" tab-bar-select-tab-by-name "Select tab by name" :column "Navigation")
+    ("r" tab-recent "Recent Tab" :exit t)
+    ("n" tab-next "Next Tab")
+    ("p" tab-previous "Previous Tab")
+    ("q" nil "Exit" :column "Quit" :exit t)
+    ("<escape>" nil "Exit" :exit t))
+  (global-set-key (kbd "C-x t") #'hydra-tab-bar/body))
 
 ;;; core.el ends here
