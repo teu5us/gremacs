@@ -11,5 +11,5 @@
       (magit-restore-window-configuration)
       (mapc #'kill-buffer buffers)))
 
-  (evil-define-key '(normal visual) magit-status-mode-map "q" #'p/magit-kill-buffers)
+  (:map (:n :v) magit-status-mode-map "q" #'p/magit-kill-buffers)
   (:maps :a global "<leader>gg" #'magit-status))
