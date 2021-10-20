@@ -102,6 +102,9 @@
     (toggle-input-method)
     (boon-set-command-state))
   :config
+  (defun p/boon-modeline-string ()
+    (concat " <" (boon-state-string) ">"))
+  (advice-add #'boon-modeline-string :override #'p/boon-modeline-string)
   (require 'boon-dvorak)
   (p/boon-modeline-im-setup))
 
