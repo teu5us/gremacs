@@ -13,13 +13,13 @@
   :init
   (defun p/writeroom ()
     (interactive)
-    (writeroom-mode 'toggle))
+    (if (derived-mode-p 'special-mode)
+        (message "Cannot enable writeroom in special buffer.")
+      (writeroom-mode 'toggle)))
+  :bind
+  ("<leader>tz" . p/writeroom)
 ;;;;; hooks
   :hook
   (writeroom-mode-disable . (lambda ()
                               (visual-fill-column-mode -1)))
-  (prog-mode . (lambda ()
-                 (:maps (:n :v) local "<leader>tz" #'p/writeroom)))
-  (text-mode . (lambda ()
-                 (p/writeroom)
-                 (:maps  (:n :v) local "<leader>tz" #'p/writeroom))))
+  (text-mode . p/writeroom))
