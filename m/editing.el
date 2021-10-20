@@ -128,27 +128,26 @@
 (use-package evil
   :after undo-tree
   :commands (evil-mode evil-set-leader)
-  :bind
-  ("<leader>" . leader-map)
-  ("M-SPC" . leader-map)
-  ;; ("<localleader>" . localleader-map)
   :hook
   (evil-mode . p/evil-modeline-im-setup)
   (after-init . (lambda ()
-                  (:maps (:n :v :o :m) global "SPC" 'leader-map
-                         ;; (:n :v :o :m) global "SPC m" 'localleader-map
-                         (:e :r :i) global "M-SPC" 'leader-map
-                         ;; (:e :r :i) global "M-SPC m" 'localleader-map
-                         )
-                  ;; (evil-set-leader '(normal visual operator motion) (kbd p/evil-leader))
-                  ;; (evil-set-leader '(emacs replace insert) (kbd p/evil-emacs-leader))
-                  (evil-set-leader '(normal visual operator motion) (kbd p/evil-localleader) t)
-                  (evil-set-leader '(emacs replace insert) (kbd p/evil-emacs-localleader) t)
+                  (:maps (:n :v :o :m) global p/evil-leader 'leader-map
+                         (:n :v :o :m) global p/evil-localleader 'localleader-map
+                         (:e :r :i) global p/evil-emacs-leader 'leader-map
+                         (:e :r :i) global p/evil-emacs-localleader 'localleader-map)
                   (evil-mode 1)))
 ;;;;; init
   :init
+  ;; define and load leaders
   (define-prefix-command 'leader-map)
   (define-prefix-command 'localleader-map)
+  (global-set-key (kbd "<leader>") 'leader-map)
+  (global-set-key (kbd "<localleader>") 'localleader-map)
+  (defun p/set-mode-local-leaders ()
+    (local-set-key (kbd "<leader>") 'leader-map)
+    (local-set-key (kbd "<localleader>") 'localleader-map))
+  (add-hook 'text-mode-hook #'p/set-mode-local-leaders -90)
+  (add-hook 'prog-mode-hook #'p/set-mode-local-leaders -90)
   (defcustom p/evil-leader "SPC"
     "Evil-mode leader key."
     :type 'string
@@ -157,14 +156,16 @@
     "Evil-mode emacs state leader key."
     :type 'string
     :group 'p/evil)
-  (defcustom p/evil-localleader "<leader>m"
+  (defcustom p/evil-localleader "SPC m"
     "Evil-mode localleader key."
     :type 'string
     :group 'p/evil)
-  (defcustom p/evil-emacs-localleader p/evil-localleader
+  (defcustom p/evil-emacs-localleader "M-SPC m"
     "Evil-mode emacs state localleader key."
     :type 'string
     :group 'p/evil)
+
+  ;; set some stuff before we load evil
   (setq evil-want-integration t
 	    evil-want-keybinding nil
 	    evil-want-C-u-scroll t
