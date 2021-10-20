@@ -25,7 +25,7 @@
   :if (executable-find "hunspell")
   :diminish
   :hook
-  ((text-mode outline-mode latex-mode org-mode markdown-mode) . flyspell-mode)
+  (text-mode . flyspell-mode)
   (prog-mode . flyspell-prog-mode)
   :custom
   (flyspell-issue-message-flag nil)

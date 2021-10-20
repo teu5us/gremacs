@@ -7,6 +7,7 @@
   (tree-sitter-after-on . tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs
-  :after tree-sitter)
+  :after tree-sitter
+  :defer 1)
 
 ;;; treesitter.el ends here

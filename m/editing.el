@@ -214,13 +214,13 @@ By default the last line, but not the end of buffer."
 
 ;;;; load evil-collection
 (use-package evil-collection
-  :after evil
-  :diminish evil-collection-unimpaired-mode
   :init
   (setq evil-collection-setup-minibuffer t
-	evil-collection-want-unimpaired-p t)
-  :config
-  (evil-collection-init))
+        evil-collection-want-unimpaired-p t)
+  :hook
+  (evil-mode . evil-collection-init)
+  (evil-collection-unimpaired-mode . (lambda ()
+                                       (diminish 'evil-collection-unimpaired-mode))))
 
 ;;;; load evil-goggles to visualize evil commands
 (use-package evil-goggles
@@ -306,6 +306,7 @@ By default the last line, but not the end of buffer."
 ;;;; search/replace stuff
 (use-package rg
   :after evil
+  :defer 1
   :config
   (:maps (:n :v :e) global "<leader>sr" #'rg-menu))
 

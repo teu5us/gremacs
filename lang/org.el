@@ -8,6 +8,7 @@
 
 ;;;; org mode itself
 (use-package org
+  :defer 1
 ;;;;; custom
   :custom
 ;;;;;; headings
@@ -152,5 +153,5 @@
 ;;;; export backends
 ;;;;; pandoc
 (use-package ox-pandoc
-  :after org
+  :defer 2
   :config (require 'ox-pandoc))
