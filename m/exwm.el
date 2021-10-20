@@ -2,7 +2,6 @@
 
 ;;; exwm
 (use-package exwm
-  ;; :straight (:type git :host github :repo "ch11ng/exwm")
   :commands (exwm-enable)
   :hook (exwm-mode . (lambda ()
                        (setq-local x-alt-keysym 'alt)))
@@ -73,23 +72,26 @@
   ;;   (+vterm/toggle t))
 ;;;; configuration
   (require 'exwm-config)
+  (defun p/exwm-ws-number (n)
+    (number-to-string (1+ n)))
+  (setq exwm-workspace-index-map #'p/exwm-ws-number)
 ;;;;; global keys
   (setq exwm-input-global-keys
         `(([?\s-r] . exwm-reset)
           ([?\s-w] . exwm-workspace-switch)
           ([?\s-x] . execute-extended-command)
           (\,@ (mapcar (lambda (i)
-                         `(,(kbd (format "s-%d" i)) .
+                         `(,(kbd (format "s-%d" (if (= i 10) 0 i))) .
                            (lambda ()
                              (interactive)
-                             (exwm-workspace-switch-create ,i))))
-                       (number-sequence 0 9)))
+                             (exwm-workspace-switch-create ,(- i 1)))))
+                       (number-sequence 1 10)))
           (\,@ (mapcar (lambda (i)
-                         `(,(kbd (format "<s-kp-%d>" i)) .
+                         `(,(kbd (format "<s-kp-%d>" (if (= i 10) 0 i))) .
                            (lambda ()
                              (interactive)
-                             (exwm-workspace-switch-create ,i))))
-                       (number-sequence 0 9)))
+                             (exwm-workspace-switch-create ,(- i 1)))))
+                       (number-sequence 1 10)))
           (,(kbd "s-&") . (lambda (command)
                             (interactive (list (read-shell-command ">> ")))
                             (start-process-shell-command command nil command)))
@@ -141,7 +143,7 @@
           (,(kbd "M-f") . [C-right])
           (,(kbd "M-b") . [C-left])))
 ;;;;; workspace-buffer switching
-  (setq exwm-workspace-number 10)
+  (setq exwm-workspace-number 1)
   (setq exwm-workspace-show-all-buffers t)
   (setq exwm-layout-show-all-buffers t)
 ;;;;; exwm buffer naming
@@ -189,11 +191,11 @@ Also used in `exwm-mode-line-workspace-map'."
 
   (defcustom exwm-mode-line-format
     `("["
-      (:propertize (:eval (format "WS-%d" exwm-workspace-current-index))
-       local-map ,exwm-mode-line-workspace-map
-       face bold
-       mouse-face mode-line-highlight
-       help-echo "mouse-1: Switch to / add / delete to EXWM workspaces.
+      (:propertize (:eval (format "WS-%s" (p/exwm-ws-number exwm-workspace-current-index)))
+                   local-map ,exwm-mode-line-workspace-map
+                   face bold
+                   mouse-face mode-line-highlight
+                   help-echo "mouse-1: Switch to / add / delete to EXWM workspaces.
 mouse-2: EXWM Workspace menu.
 ")
       "] ")
