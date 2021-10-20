@@ -62,6 +62,7 @@
   (undo-tree-visualizer-diff t)
   (undo-tree-visualizer-timestamps t)
   (undo-tree-auto-save-history t)
+  (undo-tree-history-directory-alist `(("." . ,(expand-file-name "undo" p/user-dir))))
   :config
   (global-undo-tree-mode)
   :hook
