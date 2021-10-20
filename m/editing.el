@@ -67,6 +67,7 @@
 
 ;;;; load boon
 (use-package boon
+  :demand t
   :hook
   (evil-emacs-state-entry . turn-on-boon-mode)
   (evil-emacs-state-exit . turn-off-boon-mode)
@@ -97,6 +98,26 @@
   :config
   (require 'boon-dvorak)
   (p/boon-modeline-im-setup))
+
+;;;; load multiple-cursors
+(use-package multiple-cursors
+  :bind (:map boon-command-map
+              ("m" . p/mc-map))
+  :config
+  (define-prefix-command 'p/mc-map)
+  (dolist (mapping '(("l" . mc/edit-lines)
+                     ("a" . mc/mark-all-like-this)
+                     ("n" . mc/mark-next-like-this)
+                     ("N" . mc/skip-to-next-like-this)
+                     ("M-n" . mc/unmark-next-like-this)
+                     ("p" . mc/mark-previous-like-this)
+                     ("P" . mc/skip-to-previous-like-this)
+                     ("M-p" . mc/unmark-previous-like-this)
+                     ("|" . mc/vertical-align)
+                     ("s" . mc/mark-all-in-region-regexp)
+                     ("0" . mc/insert-numbers)
+                     ("A" . mc/insert-letters)))
+    (bind-key (kbd (car mapping)) (cdr mapping) p/mc-map)))
 
 ;;;; load evil
 (use-package evil
