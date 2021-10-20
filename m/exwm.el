@@ -18,6 +18,9 @@
       (display-time-mode 1)))
   :config
 
+;;;; boon
+  (with-eval-after-load 'boon
+    (push 'exwm-mode boon-special-mode-list))
 ;;;; function definitions
 ;;;;; key functions
   (defun make-screenshot ()
