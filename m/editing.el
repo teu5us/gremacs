@@ -10,14 +10,16 @@
 ;;;; keybinding macros
 ;; Shorter keybinding definitions
 (defmacro p/bind (keyword state)
-  (list 'defmacro keyword '(map key function)
-     (list 'list ''with-eval-after-load '''evil
-           (list 'list
-                 ''evil-define-key
-                 (list 'quote (list 'quote state))
-                 (list 'list ''quote 'map)
-                 '(kbd key)
-                 'function))))
+  (let ((evil-call `(with-eval-after-load 'evil
+                      (evil-define-key ',state
+                        ,(quote ,(if (or (eq map 'global)
+                                         (eq map 'local))
+                                     (backquote ',map)
+                                   map))
+                        ,(quote (kbd ,key))
+                        ,(quote ,function)))))
+    `(defmacro ,keyword (map key function)
+       (backquote ,evil-call))))
 
 (p/bind :n normal)
 ;; ==>>
