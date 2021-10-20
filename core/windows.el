@@ -2,9 +2,18 @@
 
 ;;;; ace-window
 (use-package ace-window
-  :bind ("C-x o" . ace-window))
+  :bind ("C-x o" . ace-window)
+  :init
+  (defvar p/aw-keys "uhetonas"
+    "String of keys to use in `ace-window'.")
+  :custom
+  (aw-ignore-current t)
+  (aw-dispatch-always nil)
+  (aw-scope 'frame)
+  (aw-keys (string-to-list p/aw-keys)))
 
 ;;;; define popups
+;; TODO: maybe switch to popper.el (https://github.com/karthink/popper)
 (p/mod l popup)
 
 ;;;; window-purpose (disabled now)
