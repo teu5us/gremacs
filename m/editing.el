@@ -40,7 +40,12 @@
                    states)))
     `(progn
        ,@(cl-loop for state in -states
-                  collect (list state map key function)))))
+                  collect (list state
+                                map
+                                (if (symbolp key)
+                                        (symbol-value key)
+                                      key)
+                                function)))))
 
 (defmacro :maps (&rest decls)
   (require 'cl-lib)
