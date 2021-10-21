@@ -107,15 +107,31 @@
   (defun p/boon-modeline-string ()
     (concat " <" (boon-state-string) ">"))
   (advice-add #'boon-modeline-string :override #'p/boon-modeline-string)
-  (require 'boon-dvorak)
+  (p/require 'boon 'boon-dvorak)
   (p/boon-modeline-im-setup))
 
 ;;;; load multiple-cursors
 (use-package multiple-cursors
   :bind (:map boon-command-map
               ("m" . p/mc-map))
-  :config
+  :commands (mc/edit-lines
+             mc/mark-all-like-this
+             mc/mark-next-like-this
+             mc/skip-to-next-like-this
+             mc/unmark-next-like-this
+             mc/mark-previous-like-this
+             mc/skip-to-previous-like-this
+             mc/unmark-previous-like-this
+             mc/vertical-align
+             mc/mark-all-in-region-regexp
+             mc/insert-numbers
+             mc/insert-letters)
+  :custom
+  (mc/always-run-for-all t)
+  (mc/always-repeat-command t)
+  :init
   (define-prefix-command 'p/mc-map)
+  (:maps (:n :v) global "M-m" 'p/mc-map)
   (dolist (mapping '(("l" . mc/edit-lines)
                      ("a" . mc/mark-all-like-this)
                      ("n" . mc/mark-next-like-this)
@@ -236,7 +252,7 @@ By default the last line, but not the end of buffer."
 
 ;;;; load evil-nerd-commenter
 (use-package evil-nerd-commenter
-  :after evil
+  :commands (evilnc-comment-operator)
   :config
   (:maps (:n :v) global "gc" #'evilnc-comment-operator))
 
@@ -296,7 +312,8 @@ By default the last line, but not the end of buffer."
    :a global "<leader>bb" #'switch-to-buffer
    :a global "<leader>bd" #'kill-current-buffer
    :a global "<leader>bD" #'kill-buffer-and-window
-   :a global "<leader>qK" #'save-buffers-kill-terminal
+   :a global "<leader>qK" #'save-buffers-kill-emacs
+   :a global "<leader>qq" #'save-buffers-kill-terminal
    :a global "<leader>br" #'revert-buffer-noconfirm
    :a global "<leader>;" #'eval-expression
    :a global "<leader>u" #'universal-argument

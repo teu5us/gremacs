@@ -29,3 +29,9 @@
 (setq use-package-compute-statistics t)
 
 (use-package git)
+
+;; Faster require from package
+(defun p/require (package file)
+  (require file
+           (expand-file-name (concat (symbol-name file) ".el")
+                             (straight--el-get-package-directory package))))

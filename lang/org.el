@@ -147,11 +147,11 @@
 
 ;;;;; enable evil-org
   (evil-org-set-key-theme)
-  (require 'evil-org-agenda)
+  (p/require 'evil-org 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
 ;;;; export backends
 ;;;;; pandoc
 (use-package ox-pandoc
   :defer 2
-  :config (require 'ox-pandoc))
+  :config (p/require 'ox-pandoc 'ox-pandoc))

@@ -12,7 +12,7 @@
   (sly-mrepl-prevent-duplicate-history t)
   (sly-autodoc-use-multiline-p t)
   :config
-  (require 'sly-autoloads))
+  (p/require 'sly 'sly-autoloads))
 
 (use-package sly-asdf
   :after sly)
