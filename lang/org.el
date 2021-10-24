@@ -147,7 +147,7 @@
 
 ;;;;; enable evil-org
   (evil-org-set-key-theme)
-  (p/require 'evil-org 'evil-org-agenda)
+  (p/require 'evil-org-mode 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
 ;;;; export backends
