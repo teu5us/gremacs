@@ -5,6 +5,8 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
+  :custom
+  (markdown-nested-imenu-heading-index nil)
   :config
   (defun p/markdown-pandoc (beg end output-buffer)
     "Compiles markdown using pandoc, if available.  Returns its exit
