@@ -4,7 +4,7 @@
   :commands (sly)
   :bind (:map lisp-mode-map ("C-c C-z" . sly))
   :preface
-  (p/defpopup "*sly-mrepl.*" t :side 'bottom :height 0.3)
+  ;; (p/defpopup "*sly-mrepl.*" t :side 'bottom :height 0.3)
   :custom
   (sly-complete-symbol-function 'sly-flex-completions)
   (sly-net-coding-system 'utf-8-unix)
