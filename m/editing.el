@@ -268,15 +268,15 @@ By default the last line, but not the end of buffer."
   :config
   (:maps (:n :v :e) global "C-," #'embrace-commander)
   (defun p/embrace--hide-help-buffer ()
-    (and (buffer-live-p embrace--help-buffer)
-         (let ((win (get-buffer-window embrace--help-buffer)))
-           ;; Set `quit-restore' window parameter to fix evil-embrace/#5
-           (set-window-parameter
-            win 'quit-restore
-            (list 'window 'window (selected-window) embrace--help-buffer))
-           (deactivate-mark)
-           (with-selected-window (select-window win)
-             (quit-window)))))
+    (when (buffer-live-p embrace--help-buffer)
+      (let ((win (get-buffer-window embrace--help-buffer)))
+        ;; Set `quit-restore' window parameter to fix evil-embrace/#5
+        (set-window-parameter
+         win 'quit-restore
+         (list 'window 'window (selected-window) embrace--help-buffer))
+        (deactivate-mark)
+        (with-selected-window (select-window win)
+          (quit-window)))))
   (advice-add #'embrace--hide-help-buffer :override #'p/embrace--hide-help-buffer)
   :hook (org-mode . embrace-org-mode-hook))
 
