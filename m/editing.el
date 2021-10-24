@@ -253,7 +253,7 @@ By default the last line, but not the end of buffer."
 ;;;; load evil-nerd-commenter
 (use-package evil-nerd-commenter
   :commands (evilnc-comment-operator)
-  :config
+  :init
   (:maps (:n :v) global "gc" #'evilnc-comment-operator))
 
 ;;;; load evil-surround
