@@ -2,9 +2,10 @@
 
 (use-package lsp-mode
   :commands (lsp lsp-deferred lsp--find-clients)
-  :hook (find-file . p/lsp-deferred-unless-client)
+  :hook
+  (find-file . p/lsp-deferred-unless-client)
   :custom
-  (lsp-keymap-prefix "<leader>c")
+  (lsp-keymap-prefix nil)
   (lsp-auto-guess-root nil)
   (lsp-prefer-flymake nil) ; Use flycheck instead of flymake
   (lsp-enable-file-watchers nil)
@@ -13,7 +14,8 @@
   (lsp-keep-workspace-alive nil)
   (lsp-eldoc-hook nil)
   (lsp-headerline-breadcrumb-enable nil)
-  :bind (:map lsp-mode-map ("F" . lsp-format-buffer))
+  :bind
+  (:map lsp-mode-map ("F" . lsp-format-buffer))
   :init
   (defun p/lsp-deferred-unless-client ()
     (when (lsp--find-clients)
