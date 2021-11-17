@@ -380,7 +380,7 @@ By default the last line, but not the end of buffer."
   :after evil
   :custom
   (evil-quickscope-cross-lines t)
-  (evil-quickscope-accepted-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789йцукенгшщзхъфывапролджэячсмитьбю")
+  (evil-quickscope-accepted-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ")
   :hook ((text-mode prog-mode) . turn-on-evil-quickscope-always-mode))
 
 (use-package evil-easymotion
