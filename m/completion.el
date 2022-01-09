@@ -149,8 +149,10 @@ targets."
   :bind (:map company-active-map
 	          ("C-f" . #'company-filter-candidates)
               ("C-k" . nil)
-              ("C-j" . nil))
+              ("C-j" . nil)
+              ("<return>" . nil))
   :config
+  (company-tng-configure-default)
   (defun just-one-face (fn &rest args)
     (let ((orderless-match-faces [completions-common-part]))
       (apply fn args)))
