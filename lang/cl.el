@@ -4,6 +4,15 @@
   :commands (sly)
   :bind (:map lisp-mode-map ("C-c C-z" . sly))
   :preface
+  (add-to-list 'display-buffer-alist
+               '("sly-mrepl*"
+                 (display-buffer-at-bottom)
+                 (inhibit-same-window . t)
+                 (window-height . 0.3)))
+  (add-to-list 'display-buffer-alist
+               '("\\*sly-db*"
+                 (display-buffer-in-previous-window)
+                 (inhibit-same-window . t)))
   ;; (p/defpopup "*sly-mrepl.*" t :side 'bottom :height 0.3)
   :custom
   (sly-complete-symbol-function 'sly-flex-completions)
