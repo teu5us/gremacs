@@ -8,3 +8,6 @@
   (haskell-mode . haskell-decl-scan-mode)
   (haskell-mode . haskell-doc-mode)
   :bind (:map haskell-mode-map ("C-c C-z" . haskell-interactive-bring)))
+
+(use-package lsp-haskell
+  :hook (haskell-mode . lsp))
