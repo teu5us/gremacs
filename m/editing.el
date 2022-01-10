@@ -86,7 +86,7 @@
               ("C-." . embark-act)
               ("C-\\" . p/boon-toggle-im))
   :custom
-  (boon-default-cursor-type 'box)
+  (boon-command-cursor-type 'box)
   (boon-input-cursor-type 'bar)
   :init
   (defun p/check-for-boon (f &rest r)
