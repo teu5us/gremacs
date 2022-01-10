@@ -56,10 +56,6 @@
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq use-dialog-box nil)
 
-;;; Display time and battery
-(display-time-mode 1)
-(display-battery-mode 1)
-
 ;; ;;; Don't automatically switch to buffer visible in current frame
 ;; (setq switch-to-prev-buffer-skip nil)
 

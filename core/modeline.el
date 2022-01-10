@@ -14,6 +14,10 @@
               display-time-24hr-format t
               display-time-default-load-average nil)
 
+;;; Display time and battery
+(display-time-mode 1)
+(display-battery-mode 1)
+
 ;;;; mode-line-mule-info
 ;; here we have no check if IM is active unlike in default configuration
 (setq-default mode-line-mule-info
