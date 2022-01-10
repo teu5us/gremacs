@@ -369,9 +369,10 @@ By default the last line, but not the end of buffer."
 ;;;; search/replace stuff
 (use-package rg
   :after evil
-  :defer 1
-  :config
-  (:maps (:n :v :e) global "<leader>sr" #'rg-menu))
+  :commands (rg rg-menu)
+  :init
+  (:maps (:n :v :e) global "<leader>sR" #'rg-menu
+         (:n :v :e) global "<leader>sr" #'rg))
 
 (use-package iedit
   :diminish
