@@ -107,6 +107,7 @@ DEFS is a plist associating completion categories to commands."
    ("M-." . embark-dwim))
   :init
   (:maps (:n :v) global "C-." #'embark-act
+         (:n :v) global "<leader>a" #'embark-act
          (:n :v) global "M-." #'embark-dwim)
   :config
   (defun embark-which-key-indicator ()
