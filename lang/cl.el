@@ -5,15 +5,25 @@
   :bind (:map lisp-mode-map ("C-c C-z" . sly))
   :preface
   (add-to-list 'display-buffer-alist
-               '("sly-mrepl*"
-                 (display-buffer-at-bottom)
-                 (inhibit-same-window . t)
-                 (window-height . 0.3)))
+               '("^\\*sly-\\(?:compilation\\|traces\\)*"
+                 (display-buffer-reuse-mode-window
+                  display-buffer-in-previous-window
+                  display-buffer-pop-up-window)
+                 (inhibit-switch-frame . t)
+                 (reusable-frames . nil)
+                 (window . root)
+                 (direction . below)
+                 (window-height . 0.25)))
   (add-to-list 'display-buffer-alist
-               '("\\*sly-db*"
-                 (display-buffer-in-previous-window)
-                 (inhibit-same-window . t)))
-  ;; (p/defpopup "*sly-mrepl.*" t :side 'bottom :height 0.3)
+               '("sly-mrepl*"
+                 (display-buffer-reuse-window display-buffer-below-selected)
+                 (inhibit-switch-frame . t)
+                 (window-height . 0.3)
+                 (direction . below)
+                 (popup . t)
+                 (dedicated . t)))
+  (push "\\*sly-db*" p/buffer-predicate-names)
+  (push "\\*sly-inspector*" p/buffer-predicate-names)
   :custom
   (sly-complete-symbol-function 'sly-flex-completions)
   (sly-net-coding-system 'utf-8-unix)
