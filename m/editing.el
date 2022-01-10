@@ -107,7 +107,7 @@
   (defun p/boon-modeline-string ()
     (concat " <" (boon-state-string) ">"))
   (advice-add #'boon-modeline-string :override #'p/boon-modeline-string)
-  (p/require 'boon 'boon-dvorak)
+  (p/require 'boon 'boon-qwerty)
   (p/boon-modeline-im-setup))
 
 ;;;; load multiple-cursors
