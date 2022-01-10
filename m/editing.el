@@ -419,7 +419,7 @@ By default the last line, but not the end of buffer."
                     ("Y" avy-copy-region))))
 
 (use-package evil-matchit
-  :hook (after-init . global-evil-matchit-mode))
+  :hook (evil-mode . global-evil-matchit-mode))
 
 (use-package evil-quickscope
   :after evil
