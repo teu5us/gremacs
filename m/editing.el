@@ -232,6 +232,7 @@ By default the last line, but not the end of buffer."
                                      (point-max))))
       (p/goto--line count)))
   (advice-add #'evil-goto-line :override #'p/evil-goto-line)
+  (advice-add #'evil-force-normal-state :after #'evil-ex-nohighlight)
   )
 
 ;;;; load evil-collection
@@ -309,6 +310,16 @@ By default the last line, but not the end of buffer."
   :hook
   (after-init . evil-traces-use-diff-traces)
   (after-init . evil-traces-mode))
+
+;;;; load anzu
+(use-package anzu
+  :diminish
+  :bind (([remap query-replace] . anzu-query-replace)
+         ([remap query-replace-regexp] . anzu-query-replace-regexp))
+  :hook (after-init . global-anzu-mode))
+
+(use-package evil-anzu
+  :after (evil anzu))
 
 ;;;; do basic mapping
 (:maps
