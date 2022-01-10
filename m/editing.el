@@ -201,7 +201,11 @@
 	    evil-echo-state nil
 	    evil-kill-on-visual-paste t
 	    evil-complete-all-buffers t
-        evil-cross-lines t)
+        evil-cross-lines t
+        evil-ex-search-vim-style-regexp t
+        evil-ex-visual-char-range t
+        evil-ex-interactive-search-highlight 'selected-window
+        evil-kbd-macro-suppress-motion-error t)
 ;;;;; config
   :config
   (defun p/backward-delete-word ()
@@ -297,6 +301,14 @@ By default the last line, but not the end of buffer."
          (:n :v) global "-" #'evil-numbers/dec-at-pt
          (:n :v) global "g +" #'evil-numbers/inc-at-pt-incremental
          (:n :v) global "g -" #'evil-numbers/dec-at-pt-incremental))
+
+;;;; load evil-traces
+(use-package evil-traces
+  :after evil
+  :config
+  (evil-traces-use-diff-faces)
+  (evil-traces-mode))
+
 ;;;; do basic mapping
 (:maps
    :a global "<leader>" 'leader-map
