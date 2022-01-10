@@ -58,17 +58,21 @@
            (:n :v :i) local "M-/" #'sp-splice-sexp))
 ;;;;;; define a hydra for lispy keys
   (defhydra hydra-sp (:pre (hydra-set-property 'hydra-sp :verbosity 0)
-                      :color red
-                      :foreign-keys warn
-                      :exit nil)
+                           :color red
+                           :foreign-keys warn
+                           :exit nil)
     "
 
                                    --- LISP StructEd ---
 ----------------------------------------------------------------------------------------
 
 "
-    ("a" sp-beginning-of-sexp "beginning of sexp" :column "Movement")
-    ("e" sp-end-of-sexp "end of sexp")
+    ("^" sp-beginning-of-sexp "beginning of sexp" :column "Movement")
+    ("$" sp-end-of-sexp "end of sexp")
+    ("a" sp-beginning-of-next-sexp "beginning of next sexp")
+    ("A" sp-beginning-of-previous-sexp "beginning of previous sexp")
+    ("e" sp-end-of-next-sexp "end of next sexp")
+    ("E" sp-end-of-previous-sexp "end of previous sexp")
     ("f" sp-forward-symbol "forward sym")
     ("b" sp-backward-symbol "backward sym")
     ("n" sp-forward-sexp "forward sexp")
@@ -94,8 +98,8 @@
     ("xn" sp-narrow-to-sexp "narrow to sexp")
     (";" sp-comment "comment")
     ("<tab>" indent-sexp "indent sexp")
-    ("Eb" sp-extract-before-sexp "extract before")
-    ("Ea" sp-extract-after-sexp "extract after")
+    ("Xb" sp-extract-before-sexp "extract before")
+    ("Xa" sp-extract-after-sexp "extract after")
 
     ("h" sp-slurp-hybrid-sexp "slurp hybrid" :exit t :column "Slurp/Barf/Yank/Kill")
     ("Sn" sp-add-to-next-sexp "add to next sexp")
