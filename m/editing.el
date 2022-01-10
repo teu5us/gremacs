@@ -87,7 +87,9 @@
               ("C-\\" . p/boon-toggle-im))
   :custom
   (boon-command-cursor-type 'box)
-  (boon-input-cursor-type 'bar)
+  (boon-insert-cursor-type 'bar)
+  (boon-special-cursor-type 'box)
+  (boon-default-cursor-type 'box)
   :init
   (defun p/check-for-boon (f &rest r)
     (if (not (or boon-mode boon-local-mode))
@@ -104,6 +106,8 @@
     (toggle-input-method)
     (boon-set-command-state))
   :config
+
+
   (defun p/boon-modeline-string ()
     (concat " <" (boon-state-string) ">"))
   (advice-add #'boon-modeline-string :override #'p/boon-modeline-string)
@@ -163,25 +167,32 @@
   ;; define and load leaders
   (define-prefix-command 'leader-map)
   (define-prefix-command 'localleader-map)
+
   (global-set-key (kbd "<leader>") 'leader-map)
   (global-set-key (kbd "<localleader>") 'localleader-map)
+
   (defun p/set-mode-local-leaders ()
     (local-set-key (kbd "<leader>") 'leader-map)
     (local-set-key (kbd "<localleader>") 'localleader-map))
+
   (add-hook 'text-mode-hook #'p/set-mode-local-leaders -90)
   (add-hook 'prog-mode-hook #'p/set-mode-local-leaders -90)
+
   (defcustom p/evil-leader "SPC"
     "Evil-mode leader key."
     :type 'string
     :group 'p/evil)
+
   (defcustom p/evil-emacs-leader "M-SPC"
     "Evil-mode emacs state leader key."
     :type 'string
     :group 'p/evil)
+
   (defcustom p/evil-localleader "SPC m"
     "Evil-mode localleader key."
     :type 'string
     :group 'p/evil)
+
   (defcustom p/evil-emacs-localleader "M-SPC m"
     "Evil-mode emacs state localleader key."
     :type 'string
@@ -208,10 +219,17 @@
         evil-kbd-macro-suppress-motion-error t)
 ;;;;; config
   :config
+  (defun p/update-cursor ()
+    (if evil-state
+        (evil-refresh-cursor evil-state (current-buffer))))
+  (with-eval-after-load 'boon
+    (advice-add #'boon-update-cursor :after #'p/update-cursor))
+
   (defun p/backward-delete-word ()
     (if (bound-and-true-p evil-mode)
 	    (evil-delete-backward-word)
       (backward-kill-word)))
+
   (defun p/goto--line (count)
     (let* ((col (current-column)))
       (goto-char (point-min))
@@ -221,6 +239,7 @@
                    (if (> tarcol (line-end-position))
                        (line-end-position)
                      tarcol)))))
+
   (evil-define-motion p/evil-goto-line (count)
     "Go to line COUNT preserving column if possible.
 By default the last line, but not the end of buffer."
@@ -231,6 +250,7 @@ By default the last line, but not the end of buffer."
           (p/goto--line (count-lines (point-min)
                                      (point-max))))
       (p/goto--line count)))
+
   (advice-add #'evil-goto-line :override #'p/evil-goto-line)
   (advice-add #'evil-force-normal-state :after #'evil-ex-nohighlight)
   )
