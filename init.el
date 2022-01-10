@@ -19,7 +19,7 @@
 ;;;; finish performance configuration
 ;; the first part is in early-init
 (p/hook emacs-startup-hook
-        (setq gc-cons-threshold 16777216
+        (setq gc-cons-threshold (expt 2 23)
               gc-cons-percentage 0.1
               file-name-handler-alist last-file-name-handler-alist)
         t)

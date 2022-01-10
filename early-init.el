@@ -20,7 +20,7 @@
 ;; finished in init.el
 (defvar last-file-name-handler-alist file-name-handler-alist)
 
-(setq gc-cons-threshold 402653184
+(setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6
       file-name-handler-alist nil)
 
