@@ -236,7 +236,8 @@ mouse-2: EXWM Workspace menu.
 
 ;;; exwm-edit
 (use-package exwm-edit
-  :after exwm)
+  :after exwm
+  :commands (exwm-edit--compose))
 
 ;;; misc to fix later
 
