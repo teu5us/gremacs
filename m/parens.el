@@ -101,7 +101,7 @@
     ("Xb" sp-extract-before-sexp "extract before")
     ("Xa" sp-extract-after-sexp "extract after")
 
-    ("h" sp-slurp-hybrid-sexp "slurp hybrid" :exit t :column "Slurp/Barf/Yank/Kill")
+    ("Sh" sp-slurp-hybrid-sexp "slurp hybrid" :exit t :column "Slurp/Barf/Yank/Kill")
     ("Sn" sp-add-to-next-sexp "add to next sexp")
     ("Sp" sp-add-to-previous-sexp "add to previous sexp")
     ("Sf" sp-forward-slurp-sexp "slurp forward")
