@@ -142,6 +142,7 @@
 
 ;;;; load evil-smartparens
 (use-package evil-smartparens
+  :diminish
   :after (evil smartparens)
   :hook ((smartparens-mode smartparens-strict-mode)
          .
