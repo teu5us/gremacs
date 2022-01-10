@@ -35,7 +35,7 @@
 (p/bind :m motion)
 
 (defmacro :map (states map key function)
-  (require 'cl-lib)
+  (p/require 'cl-lib 'cl-lib)
   (let ((-states (if (and (symbolp states)
                           (eq states :a))
                      '(:n :v :e :i :o :r :m)
@@ -50,7 +50,7 @@
                                 function)))))
 
 (defmacro :maps (&rest decls)
-  (require 'cl-lib)
+  (p/require 'cl-lib 'cl-lib)
   `(progn
      ,@(cl-loop for (states map key function) on decls by #'cddddr
                 collect `(:map ,states ,map ,key ,function))))

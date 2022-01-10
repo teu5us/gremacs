@@ -30,7 +30,7 @@
 
 (defun p/module-name-concat (&rest strings)
   "Concatenate module names."
-  (require 'cl-lib)
+  (p/require 'cl-lib 'cl-lib)
   (if (fboundp 'file-name-concat)
       (apply #'file-name-concat strings)
     (let ((slashes (make-list (1- (length strings))
@@ -44,7 +44,7 @@
 (defmacro p/mod (&rest names)
   "Load a submodule (built from NAMES using `p/module-name-concat')
 from `user-emacs-directory' or subfolder."
-  (require 'cl-lib)
+  (p/require 'cl-lib 'cl-lib)
   (if (p/all-p #'symbolp names)
       (let ((base-dir (directory-file-name
                        (if (eql 'l (car names))
@@ -65,7 +65,7 @@ from `user-emacs-directory' or subfolder."
 
 (defmacro p/mods (&rest mods)
   "Bulk load modules using `p/mod'."
-  (require 'cl-lib)
+  (p/require 'cl-lib 'cl-lib)
   `(progn
      ,@(cl-loop for mod in mods
                 collect (cons 'p/mod mod))))
@@ -200,7 +200,6 @@ The original function deletes trailing whitespace of the current line."
   :type 'string)
 
 ;;;; load other core modules
-(p/mod l package-management)
 (p/mod l dired)
 (p/mod l sudo)
 (p/mod l indentation)

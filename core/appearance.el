@@ -81,7 +81,7 @@
   "Filter buffers when automatically switching with `other-buffer'.
 Chosen buffer must be a file buffer or a buffer stored in variable
 `p/buffer-predicate-names'."
-  (require 'dash)
+  (p/require 'dash 'dash)
   (when
       (and (not (-any-p #'(lambda (win)
                             (equal buf

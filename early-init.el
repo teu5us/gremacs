@@ -24,6 +24,9 @@
       gc-cons-percentage 0.6
       file-name-handler-alist nil)
 
+;;;; load straight and stuff
+(load (expand-file-name "core/package-management.el" user-emacs-directory) nil t)
+
 ;;;; load core configuration
 (load (expand-file-name "core/core.el" user-emacs-directory) nil t)
 
