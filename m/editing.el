@@ -304,10 +304,11 @@ By default the last line, but not the end of buffer."
 
 ;;;; load evil-traces
 (use-package evil-traces
+  :diminish
   :after evil
-  :config
-  (evil-traces-use-diff-faces)
-  (evil-traces-mode))
+  :hook
+  (after-init . evil-traces-use-diff-traces)
+  (after-init . evil-traces-mode))
 
 ;;;; do basic mapping
 (:maps
