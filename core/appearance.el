@@ -129,6 +129,9 @@ Chosen buffer must be a file buffer or a buffer stored in variable
         display-buffer-at-bottom
         display-buffer-pop-up-frame))
 
+;;; Whitespace mode style
+(setq whitespace-style
+      '(face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))
 ;;; customize mode line
 (p/mod l modeline)
 
