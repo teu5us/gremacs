@@ -24,17 +24,25 @@
   (p/require 'smartparens 'smartparens-config)
 ;;;;;; define motions for lispy modes
   (defun p/load-lispy-parens-bindings ()
-    (:maps (:i) local "M-<backspace>" #'sp-backward-kill-symbol
-           (:i) local "M-D" #'sp-kill-symbol
-           (:i) local "M-(" #'sp-kill-sexp
-           (:i) local "M-)" #'sp-backward-kill-sexp
-           (:i) local ";" #'sp-comment
+    (:maps (:n :i) local "M-<backspace>" #'sp-backward-kill-sexp
+           (:n :i) local "M-D" #'sp-kill-sexp
+           (:i) local "<return>" #'sp-newline
            (:n :i) local "M-c" #'sp-clone-sexp
+           (:n :i) local "M-C" #'sp-copy-sexp
            (:n :i) local "M-r" #'sp-raise-sexp
            (:n :i) local "M-e" #'sp-emit-sexp
            (:n :i) local "M-S" #'sp-split-sexp
            (:n :i) local "M-j" #'sp-join-sexp
            (:n :i) local "M-a" #'sp-absorb-sexp
+           (:n :i) local "M-t" #'sp-transpose-sexp
+           (:n :i) local "M-;" #'sp-comment
+           (:n :i) local "M-I" #'sp-change-inner
+           (:n :i) local "M-E" #'sp-change-enclosing
+           (:n :i) local "C-M-N" #'sp-change-enclosing
+           (:n :v :i) local "M-o" #'sp-beginning-of-sexp
+           (:n :v :i) local "M-O" #'sp-end-of-sexp
+           (:n :v :i) local "M-w" #'sp-beginning-of-next-sexp
+           (:n :v :i) local "M-W" #'sp-beginning-of-previous-sexp
            (:n :v :i) local "M-f" #'sp-forward-symbol
            (:n :v :i) local "M-b" #'sp-backward-symbol
            (:n :v :i) local "M-n" #'sp-forward-sexp
@@ -60,8 +68,6 @@
 
 "
     ("a" sp-beginning-of-sexp "beginning of sexp" :column "Movement")
-    ("d" sp-kill-symbol "kill sym")
-    ("D" sp-backward-kill-symbol "backward kill sym")
     ("e" sp-end-of-sexp "end of sexp")
     ("f" sp-forward-symbol "forward sym")
     ("b" sp-backward-symbol "backward sym")
@@ -72,29 +78,41 @@
     ("I" sp-down-sexp "up sexp")
     ("i" sp-backward-down-sexp "backward down sexp")
 
-    ("cc" sp-clone-sexp "clone" :column "Actions")
-    ("ci" sp-change-inner "change inner")
+    ("ci" sp-change-inner "change inner" :column "Actions")
     ("ce" sp-change-enclosing "change enclosing")
     ("xa" sp-absorb-sexp "absorb")
+    ("xc" sp-convolute-sexp "convolute")
     ("xe" sp-emit-sexp "emit")
     ("xE" eval-last-sexp "eval")
     ("xj" sp-join-sexp "join")
     ("xr" sp-raise-sexp "raise")
     ("xs" sp-split-sexp "split")
     ("x/" sp-splice-sexp "splice")
+    ("xb" sp-splice-sexp-killing-backward "splice killing backward")
+    ("xf" sp-splice-sexp-killing-forward "splice killing forward")
+    ("xt" sp-transpose-sexp "transpose")
+    ("xn" sp-narrow-to-sexp "narrow to sexp")
     (";" sp-comment "comment")
     ("<tab>" indent-sexp "indent sexp")
+    ("Eb" sp-extract-before-sexp "extract before")
+    ("Ea" sp-extract-after-sexp "extract after")
 
-    ("h" sp-slurp-hybrid-sexp "slurp hybrid" :exit t :column "Slurp/Barf")
-    ("]" sp-forward-slurp-sexp "slurp forward")
-    ("}" sp-forward-barf-sexp "barf forward")
-    ("[" sp-backward-slurp-sexp "slurp backward")
-    ("{" sp-backward-barf-sexp "barf backward")
-    ("(" sp-kill-sexp "kill sexp")
-    (")" sp-backward-kill-sexp "backward kill sexp")
+    ("h" sp-slurp-hybrid-sexp "slurp hybrid" :exit t :column "Slurp/Barf/Yank/Kill")
+    ("Sn" sp-add-to-next-sexp "add to next sexp")
+    ("Sp" sp-add-to-previous-sexp "add to previous sexp")
+    ("Sf" sp-forward-slurp-sexp "slurp forward")
+    ("Sb" sp-backward-slurp-sexp "slurp backward")
+    ("Bf" sp-forward-barf-sexp "barf forward")
+    ("Bb" sp-backward-barf-sexp "barf backward")
+    ("D" sp-kill-sexp "kill sexp")
+    ("d" sp-backward-kill-sexp "backward kill sexp")
+    ("cd" sp-clone-sexp "clone")
+    ("cc" sp-copy-sexp "copy")
+    ("cC" sp-backward-copy-sexp "copy backwards")
+    ("u" undo "undo")
 
-    ("?" (hydra-set-property 'hydra-sp :verbosity 2) "help" :column "Etc")
-    (":" execute-extended-command)
+    ("?" (hydra-set-property 'hydra-sp :verbosity 1) "hide" :column "Etc")
+    (":" execute-extended-command "EX")
     ("q" nil "quit" :color blue)
     ("<escape>" nil "quit" :color blue))
 ;;;;;; highlight matching parens
@@ -113,7 +131,14 @@
      (smartparens-strict-mode)
      (if (p/lisp?)
          (progn
-           (local-set-key (kbd "M-z") #'hydra-sp/body)
+           (local-set-key (kbd "C-l") #'hydra-sp/body)
            (p/load-lispy-parens-bindings)
            (setq-local evil-move-beyond-eol t))
        (:maps (:n :v :i) local "M-w" #'sp-slurp-hybrid-sexp)))))
+
+;;;; load evil-smartparens
+(use-package evil-smartparens
+  :after (evil smartparens)
+  :hook ((smartparens-mode smartparens-strict-mode)
+         .
+         evil-smartparens-mode))
