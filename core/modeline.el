@@ -9,12 +9,12 @@
 ;;;; time and battery formats
 (setq-default display-time-world-time-format "[%a %d %b %R %Z]"
               display-time-format "[%a %d %b %R]"
-              battery-mode-line-format "[%b%p%%: %t]"
+              battery-mode-line-format " [%b%p%%: %t]"
               display-time-day-and-date t
               display-time-24hr-format t
               display-time-default-load-average nil)
 
-;;; Display time and battery
+;;;; Display time and battery
 (display-time-mode 1)
 (display-battery-mode 1)
 
