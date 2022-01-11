@@ -1,8 +1,10 @@
 ;;; completion.el --- Completion configuration -*- lexical-binding: t; -*-
 
+;;;; marginalia
 (use-package marginalia
   :hook (after-init . marginalia-mode))
 
+;;;; orderless
 (use-package orderless
   :after marginalia
   :custom
@@ -10,18 +12,116 @@
                                orderless-literal
                                orderless-initialism
                                orderless-flex))
+  (completion-styles '(substring orderless))
+  (completion-category-defaults nil)
   (completion-category-overrides
    `((command (styles orderless))
-     (file (styles partial-completion orderless))
+     (file (styles basic partial-completion orderless))
      (function (styles orderless))
      (variable (styles orderless))
      (buffer (styles orderless))
      (project-file (styles orderless))
      (unicode-name (styles orderless))
      (xref-location (styles orderless))
-     (info-menu (styles orderless)))))
+     (info-menu (styles orderless))))
+  :config
+  (with-eval-after-load 'org
+    (setq org-refile-use-outline-path 'file
+          org-outline-path-complete-in-steps t)
+    (advice-add #'org-olpath-completing-read :around
+                (lambda (&rest args)
+                  (minibuffer-with-setup-hook
+                      (lambda () (setq-local completion-styles '(basic)))
+                    (apply args))))))
 
+;;;; vertico
+(use-package vertico
+  :custom
+  (vertico-scroll-margin 0)
+  (vertico-count 10)
+  (vertico-resize t)
+  (vertico-cycle t)
+  :bind (:map vertico-map
+              ("?" . minibuffer-completion-help)
+              ("M-RET" . minibufferforce-complete-and-exit)
+              ("M-TAB" . minibuffer-complete)
+              ("C-u" . universal-argument))
+  :hook (after-init . vertico-mode)
+  :config
+  (:maps (:n) vertico-map "C-n" #'vertico-next
+         (:n) vertico-map "C-p" #'vertico-previous)
+  ;; Use `consult-completion-in-region' if Vertico is enabled.
+  ;; Otherwise use the default `completion--in-region' function.
+  (with-eval-after-load 'consult
+    (setq completion-in-region-function
+          (lambda (&rest args)
+            (apply (if vertico-mode
+                       #'consult-completion-in-region
+                     #'completion--in-region)
+                   args))))
+
+  ;; org-refile workaround
+  (with-eval-after-load 'org
+    (setq org-refile-use-outline-path 'file
+          org-outline-path-complete-in-steps t)
+    (advice-add #'org-olpath-completing-read :around
+                (lambda (&rest args)
+                  (minibuffer-with-setup-hook
+                      (lambda () (setq-local completion-styles '(basic)))
+                    (apply args)))))
+
+  ;; vertico-quick
+  (p/require 'vertico "extensions/vertico-quick" 'vertico-quick)
+  (define-key vertico-map (kbd "M-q") #'vertico-quick-insert)
+  (define-key vertico-map (kbd "M-j") #'vertico-quick-jump)
+
+  ;; vertico-directory
+  (p/require 'vertico "extensions/vertico-directory" 'vertico-directory)
+  (define-key vertico-map (kbd "RET") #'vertico-directory-enter)
+  (define-key vertico-map (kbd "DEL") #'vertico-directory-delete-char)
+  (define-key vertico-map (kbd "M-DEL") #'vertico-directory-delete-word)
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
+
+  ;; vertico-flat
+  (p/require 'vertico "extensions/vertico-flat" 'vertico-flat)
+
+  ;; vertico-buffer
+  (p/require 'vertico "extensions/vertico-buffer" 'vertico-buffer)
+
+  ;; vertico-grid
+  (p/require 'vertico "extensions/vertico-grid" 'vertico-grid)
+
+  ;; vertico-reverse
+  (p/require 'vertico "extensions/vertico-reverse" 'vertico-reverse)
+
+  ;; vertico-unobtrusive
+  (p/require 'vertico "extensions/vertico-unobtrusive" 'vertico-unobtrusive)
+
+  ;; vertico-multiform
+  (p/require 'vertico "extensions/vertico-multiform" 'vertico-multiform)
+
+  (setq vertico-multiform-commands
+        `((consult-imenu buffer)
+          (consult-imenu-multi buffer)
+          (execute-extended-command flat)
+          (consult-outline buffer ,(lambda (_) (text-scale-set -1)))
+          (switch-to-buffer unobtrusive)))
+
+  (setq vertico-multiform-categories
+        '((file grid)
+          (consult-grep buffer)
+          (t reverse)))
+
+  (define-key vertico-map (kbd "M-G") #'vertico-multiform-grid)
+  (define-key vertico-map (kbd "M-F") #'vertico-multiform-flat)
+  (define-key vertico-map (kbd "M-R") #'vertico-multiform-reverse)
+  (define-key vertico-map (kbd "M-U") #'vertico-multiform-unobtrusive)
+
+  (vertico-multiform-mode))
+
+;;;; selectrum
 (use-package selectrum
+  :disabled
   :after orderless
   :custom
   (orderless-skip-highlighting #'(lambda () selectrum-is-active))
@@ -31,8 +131,9 @@
   :config
   (selectrum-mode +1))
 
+;;;; consult
 (use-package consult
-  :after (selectrum projectile)
+  ;; :after (selectrum projectile)
   :init
   ;; Optionally configure the register formatting. This improves the register
   ;; preview for `consult-register', `consult-register-load',
@@ -56,10 +157,11 @@
 
   :config
   (setq consult-narrow-key "<")
-  (setq consult-project-root-function #'projectile-project-root)
+  (with-eval-after-load 'projectile
+    (setq consult-project-root-function #'projectile-project-root))
   (setq consult-preview-key nil)
   (advice-add 'recentf-open-files :override #'consult-recent-file)
-  (advice-add 'imenu :override #'consult-imenu)
+  (global-set-key [remap imenu] 'consult-imenu)
 
   (defun consult-find-for-minibuffer ()
     "Search file with find, enter the result in the minibuffer."
@@ -95,10 +197,12 @@ DEFS is a plist associating completion categories to commands."
   (:maps (:n :v) global "<leader>oi" #'imenu
          (:n :v) global "<leader>oI" #'consult-imenu-multi))
 
+;;;;; lsp
 (use-package consult-lsp
   ;; :after (consult lsp)
   :bind (:map lsp-mode-map ([remap xref-find-apropos] . consult-lsp-symbols)))
 
+;;;; embark
 (use-package embark
   :commands (embark-act embark-dwim embark-bindings)
   :bind
@@ -135,11 +239,13 @@ targets."
                  nil
                  (window-parameters (mode-line-format . none)))))
 
+;;;;; embark-consult
 (use-package embark-consult
   ;; :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+;;;; company
 (use-package company
   :diminish company-mode
   :custom

@@ -31,7 +31,9 @@
 (use-package git)
 
 ;; Faster require from package
-(defun p/require (package file)
-  (require file
-           (expand-file-name (concat (symbol-name file) ".el")
+(defun p/require (package file &optional feature)
+  (require (or feature file)
+           (expand-file-name (concat (if (symbolp file)
+                                         (symbol-name file)
+                                       file) ".el")
                              (straight--el-get-package-directory package))))
