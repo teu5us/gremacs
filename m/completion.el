@@ -81,9 +81,6 @@
   ;; vertico-grid
   (p/require 'vertico "extensions/vertico-grid" 'vertico-grid)
 
-  ;; vertico-reverse
-  (p/require 'vertico "extensions/vertico-reverse" 'vertico-reverse)
-
   ;; vertico-unobtrusive
   (p/require 'vertico "extensions/vertico-unobtrusive" 'vertico-unobtrusive)
 
@@ -99,12 +96,10 @@
 
   (setq vertico-multiform-categories
         '((file grid)
-          (consult-grep buffer)
-          (t reverse)))
+          (consult-grep buffer)))
 
   (define-key vertico-map (kbd "M-G") #'vertico-multiform-grid)
   (define-key vertico-map (kbd "M-F") #'vertico-multiform-flat)
-  (define-key vertico-map (kbd "M-R") #'vertico-multiform-reverse)
   (define-key vertico-map (kbd "M-U") #'vertico-multiform-unobtrusive)
 
   (vertico-multiform-mode))
