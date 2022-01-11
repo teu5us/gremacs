@@ -128,6 +128,8 @@
   (sp-show-pair-delay 0)
 ;;;;; hooks
   :hook
+  (after-init . (lambda ()
+                  (add-hook 'minibuffer-setup-hook #'smartparens-mode)))
   ((text-mode org-mode) . smartparens-mode)
   ;; (prog-mode . smartparens-strict-mode)
   ((sly-mrepl-mode prog-mode)
