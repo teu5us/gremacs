@@ -105,10 +105,14 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 ;;; Display key hints
 (use-package which-key
   :diminish which-key-mode
-  :hook (after-init . which-key-mode)
+  ;; :hook (after-init . which-key-mode)
+  :commands (which-key-mode)
+  :init
+  (add-hook 'after-init-hook #'which-key-mode -90)
   :custom
   (which-key-paging-prefixes '("C-x"))
   (which-key-paging-key "C-h")
+  (which-key-allow-evil-operators t)
   ;; :bind (:map minibuffer-mode-map
   ;;             ("C-h n" . which-key-show-next-page-cycle)
   ;;             ("C-h p" . which-key-show-previous-page-cycle))
