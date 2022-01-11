@@ -30,8 +30,7 @@
 mouse-2: Disable input method\n\
 mouse-3: Describe current input method"))
 		         local-map ,mode-line-input-method-map
-		         mouse-face mode-line-highlight
-                 face custom-button)
+		         mouse-face mode-line-highlight)
     " "
     ,(propertize
       "%z"
