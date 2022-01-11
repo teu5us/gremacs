@@ -376,9 +376,24 @@ By default the last line, but not the end of buffer."
 
 (use-package iedit
   :diminish
-  :bind (("C-;" . iedit-mode)
-         :map consult-isearch-map
+  :bind (;; ("C-;" . iedit-mode)
+         :map isearch-mode-map
          ("C-;" . iedit-mode-from-isearch)))
+
+;;;;; load evil-multiedit
+(use-package evil-multiedit
+  :commands (evil-multiedit-match-all
+             evil-multiedit-match-and-next
+             evil-multiedit-toggle-marker-here)
+  :bind ("C-;" . evil-multiedit-match-all)
+  :init
+  (defun p/load-evil-multiedit ()
+      (:maps (:n :v) global "M-d" #'evil-multiedit-match-and-next
+             (:i) global "M-d" #'evil-multiedit-toggle-marker-here
+             (:v) global "R" #'evil-multiedit-match-all))
+  :hook ((smartparens-mode smartparens-strict-mode) . p/load-evil-multiedit)
+  :config
+  (evil-multiedit-default-keybinds))
 
 (use-package wgrep
   :commands (wgrep-change-to-wgrep-mode))
