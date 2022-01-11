@@ -60,16 +60,6 @@
                      #'completion--in-region)
                    args))))
 
-  ;; org-refile workaround
-  (with-eval-after-load 'org
-    (setq org-refile-use-outline-path 'file
-          org-outline-path-complete-in-steps t)
-    (advice-add #'org-olpath-completing-read :around
-                (lambda (&rest args)
-                  (minibuffer-with-setup-hook
-                      (lambda () (setq-local completion-styles '(basic)))
-                    (apply args)))))
-
   ;; vertico-quick
   (p/require 'vertico "extensions/vertico-quick" 'vertico-quick)
   (define-key vertico-map (kbd "M-q") #'vertico-quick-insert)
