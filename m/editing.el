@@ -162,22 +162,8 @@
                          (:e :r :i) global p/evil-emacs-leader 'leader-map
                          (:e :r :i) global p/evil-emacs-localleader 'localleader-map)
                   (evil-mode 1)))
-;;;;; init
-  :init
-  ;; define and load leaders
-  (define-prefix-command 'leader-map)
-  (define-prefix-command 'localleader-map)
-
-  (global-set-key (kbd "<leader>") 'leader-map)
-  (global-set-key (kbd "<localleader>") 'localleader-map)
-
-  (defun p/set-mode-local-leaders ()
-    (local-set-key (kbd "<leader>") 'leader-map)
-    (local-set-key (kbd "<localleader>") 'localleader-map))
-
-  (add-hook 'text-mode-hook #'p/set-mode-local-leaders -90)
-  (add-hook 'prog-mode-hook #'p/set-mode-local-leaders -90)
-
+;;;;; pre
+  :preface
   (defcustom p/evil-leader "SPC"
     "Evil-mode leader key."
     :type 'string
@@ -197,6 +183,21 @@
     "Evil-mode emacs state localleader key."
     :type 'string
     :group 'p/evil)
+;;;;; init
+  :init
+  ;; define and load leaders
+  (define-prefix-command 'leader-map)
+  (define-prefix-command 'localleader-map)
+
+  (global-set-key (kbd "<leader>") 'leader-map)
+  (global-set-key (kbd "<localleader>") 'localleader-map)
+
+  (defun p/set-mode-local-leaders ()
+    (local-set-key (kbd "<leader>") 'leader-map)
+    (local-set-key (kbd "<localleader>") 'localleader-map))
+
+  (add-hook 'text-mode-hook #'p/set-mode-local-leaders -90)
+  (add-hook 'prog-mode-hook #'p/set-mode-local-leaders -90)
 
   ;; set some stuff before we load evil
   (setq evil-want-integration t
