@@ -8,7 +8,7 @@
 
 ;;;; org mode itself
 (use-package org
-  :defer 1
+  :mode ("\\.org\\'" . org-mode)
 ;;;;; custom
   :custom
 ;;;;;; headings
@@ -35,7 +35,7 @@
 
 ;;;; evil-org
 (use-package evil-org
-  :after (evil org)
+  ;; :after (evil org)
   :commands (evil-org-define-eol-command)
   :diminish evil-org-mode
   :hook (org-mode . evil-org-mode)
@@ -153,5 +153,5 @@
 ;;;; export backends
 ;;;;; pandoc
 (use-package ox-pandoc
-  :defer 2
+  :after org
   :config (p/require 'ox-pandoc 'ox-pandoc))

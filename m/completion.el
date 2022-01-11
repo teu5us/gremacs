@@ -96,7 +96,7 @@ DEFS is a plist associating completion categories to commands."
          (:n :v) global "<leader>oI" #'consult-imenu-multi))
 
 (use-package consult-lsp
-  :after (consult lsp)
+  ;; :after (consult lsp)
   :bind (:map lsp-mode-map ([remap xref-find-apropos] . consult-lsp-symbols)))
 
 (use-package embark
@@ -136,7 +136,7 @@ targets."
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :after (embark consult)
+  ;; :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 

@@ -152,7 +152,7 @@
 
 ;;;; load evil
 (use-package evil
-  :after undo-tree
+  ;; :after undo-tree
   :commands (evil-mode evil-set-leader)
   :hook
   (evil-mode . p/evil-modeline-im-setup)
@@ -257,19 +257,20 @@ By default the last line, but not the end of buffer."
 
 ;;;; load evil-collection
 (use-package evil-collection
+  :after evil
   :init
   (setq evil-collection-setup-minibuffer t
         evil-collection-want-unimpaired-p t)
+  :config (evil-collection-init)
   :hook
-  (evil-mode . evil-collection-init)
   (evil-collection-unimpaired-mode . (lambda ()
                                        (diminish 'evil-collection-unimpaired-mode))))
 
 ;;;; load evil-goggles to visualize evil commands
 (use-package evil-goggles
   :diminish evil-goggles-mode
-  :after evil
-  :hook (after-init . evil-goggles-mode)
+  ;; :after evil
+  :hook (evil-mode . evil-goggles-mode)
   :config
   (setq evil-goggles-pulse t)
   (setq evil-goggles-duration 0.1)
@@ -283,7 +284,7 @@ By default the last line, but not the end of buffer."
 
 ;;;; load evil-surround
 (use-package evil-surround
-  :after evil
+  ;; :after evil
   :hook (evil-mode . global-evil-surround-mode))
 
 ;;;;; complement with embrace
@@ -312,7 +313,7 @@ By default the last line, but not the end of buffer."
 
 ;;;; load evil-numbers
 (use-package evil-numbers
-  :after evil
+  ;; :after evil
   :commands (evil-numbers/inc-at-pt
              evil-numbers/dec-at-pt
              evil-numbers/inc-at-pt-incremental
@@ -326,10 +327,10 @@ By default the last line, but not the end of buffer."
 ;;;; load evil-traces
 (use-package evil-traces
   :diminish
-  :after evil
+  ;; :after evil
   :hook
-  (after-init . evil-traces-use-diff-traces)
-  (after-init . evil-traces-mode))
+  (evil-mode . evil-traces-use-diff-traces)
+  (evil-mode . evil-traces-mode))
 
 ;;;; load anzu
 (use-package anzu
@@ -368,7 +369,7 @@ By default the last line, but not the end of buffer."
 
 ;;;; search/replace stuff
 (use-package rg
-  :after evil
+  ;; :after evil
   :commands (rg rg-menu)
   :init
   (:maps (:n :v :e) global "<leader>sR" #'rg-menu
@@ -384,13 +385,16 @@ By default the last line, but not the end of buffer."
 (use-package evil-multiedit
   :commands (evil-multiedit-match-all
              evil-multiedit-match-and-next
-             evil-multiedit-toggle-marker-here)
+             evil-multiedit-toggle-marker-here
+             evil-multiedit-ex-match)
   :bind ("C-;" . evil-multiedit-match-all)
   :init
   (defun p/load-evil-multiedit ()
       (:maps (:n :v) global "M-d" #'evil-multiedit-match-and-next
              (:i) global "M-d" #'evil-multiedit-toggle-marker-here
              (:v) global "R" #'evil-multiedit-match-all))
+  (with-eval-after-load 'evil
+    (evil-ex-define-cmd "ie[dit]" 'evil-multiedit-ex-match))
   :hook ((smartparens-mode smartparens-strict-mode) . p/load-evil-multiedit)
   :config
   (evil-multiedit-default-keybinds))
@@ -437,14 +441,14 @@ By default the last line, but not the end of buffer."
   :hook (evil-mode . global-evil-matchit-mode))
 
 (use-package evil-quickscope
-  :after evil
+  ;; :after evil
   :custom
   (evil-quickscope-cross-lines t)
   (evil-quickscope-accepted-chars "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ")
   :hook ((text-mode prog-mode) . turn-on-evil-quickscope-always-mode))
 
 (use-package evil-easymotion
-  :after evil
+  ;; :after evil
   :commands (evilem-map evilem-create)
   :config
   (:map (:n :v) global "gs" evilem-map))
@@ -454,7 +458,7 @@ By default the last line, but not the end of buffer."
              evil-snipe-local-mode
              evil-snipe-override-mode
              evil-snipe-override-local-mode)
-  :after evil
+  ;; :after evil
   :custom
   (evil-snipe-scope 'visible)
   (evil-snipe-repeat-keys nil)

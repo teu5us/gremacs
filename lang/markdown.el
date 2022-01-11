@@ -1,10 +1,8 @@
 ;;; markdown.el --- markdown configuration -*- lexical-binding: t; -*-
 
 (use-package markdown-mode
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
+  ;; :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode))
   :custom
   (markdown-nested-imenu-heading-index nil)
   :config
@@ -22,7 +20,8 @@ code."
 (use-package evil-markdown
   :diminish evil-markdown-mode
   :straight (:type git :host github :repo "Somelauw/evil-markdown")
-  :after (evil markdown-mode))
+  ;; :after (evil markdown-mode)
+  :hook (markdown-mode . evil-markdown-mode))
 
 (use-package markdown-toc
   :after markdown-mode)

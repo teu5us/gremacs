@@ -1,7 +1,7 @@
 ;;; project.el --- Projectile configuration -*- lexical-binding: t; -*-
 
 (use-package projectile
-  :after evil
+  ;; :after evil
   :diminish projectile-mode
   :hook (after-init . projectile-mode)
   :custom
