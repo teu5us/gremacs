@@ -327,10 +327,10 @@ By default the last line, but not the end of buffer."
 ;;;; load evil-traces
 (use-package evil-traces
   :diminish
-  ;; :after evil
+  :after evil
   :hook
-  (evil-mode . evil-traces-use-diff-traces)
-  (evil-mode . evil-traces-mode))
+  (after-init . evil-traces-use-diff-traces)
+  (after-init . evil-traces-mode))
 
 ;;;; load anzu
 (use-package anzu
