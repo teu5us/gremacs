@@ -1,14 +1,16 @@
 ;;; appearance.el --- Core appearance configuration -*- lexical-binding: t; -*-
 
 ;;; Disable unnecessary interface
-(menu-bar-mode -1)
-(blink-cursor-mode -1)
-(unless (and (display-graphic-p) (eq system-type 'darwin))
-  (push '(menu-bar-lines . 0) default-frame-alist))
-(push '(tool-bar-lines . 0) default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
-(push '(bottom-divider-width . 1) default-frame-alist)
-(push '(alpha . 100) default-frame-alist)
+(defun p/setup-interface ()
+  (menu-bar-mode -1)
+  (blink-cursor-mode -1)
+  (unless (and (display-graphic-p) (eq system-type 'darwin))
+    (push '(menu-bar-lines . 0) default-frame-alist))
+  (push '(tool-bar-lines . 0) default-frame-alist)
+  (push '(vertical-scroll-bars) default-frame-alist)
+  (push '(bottom-divider-width . 1) default-frame-alist)
+  (push '(alpha . 100) default-frame-alist))
+(add-hook 'after-init-hook #'p/setup-interface)
 
 ;;; Hide the default buffer margins
 (set-face-attribute 'fringe nil :background nil)

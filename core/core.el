@@ -8,17 +8,19 @@
 ;;; Code:
 
 ;;;; coding system
-(unless (eq system-type 'windows-nt)
-  (set-selection-coding-system 'utf-8)
-  (prefer-coding-system 'utf-8)
-  (set-language-environment "UTF-8")
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (setq locale-coding-system 'utf-8))
-;; Treat clipboard input as UTF-8 string first; compound text next, etc.
-(when (display-graphic-p)
-  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
+(defun p/setup-coding-system ()
+  (unless (eq system-type 'windows-nt)
+    (set-selection-coding-system 'utf-8)
+    (prefer-coding-system 'utf-8)
+    (set-language-environment "UTF-8")
+    (set-default-coding-systems 'utf-8)
+    (set-terminal-coding-system 'utf-8)
+    (set-keyboard-coding-system 'utf-8)
+    (setq locale-coding-system 'utf-8))
+  ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+  (when (display-graphic-p)
+    (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))))
+(add-hook 'after-init-hook #'p/setup-coding-system)
 
 ;;;; module system
 (defun p/all-p (pred lst)
@@ -110,12 +112,12 @@ check the value of GROUND_EMACS_USERDIR environment variable")))
 (setq-default history-length 500)
 ;; Save history
 (setq savehist-file (expand-file-name "history" p/user-dir))
-(savehist-mode)
+(add-hook 'after-init-hook #'savehist-mode)
 
 ;;;; recent files
 ;; Save recent files
 (setq recentf-max-saved-items 200)
-(recentf-mode)
+(add-hook 'after-init-hook #'recentf-mode)
 
 ;;;; disable autsaving
 (setq auto-save-default nil)
@@ -154,7 +156,7 @@ check the value of GROUND_EMACS_USERDIR environment variable")))
 ;; So Long mitigates slowness due to extremely long lines.
 ;; Currently available in Emacs master branch *only*!
 (when (fboundp 'global-so-long-mode)
-  (global-so-long-mode))
+  (add-hook 'after-init-hook #'global-so-long-mode))
 
 ;;;; add a newline automatically at the end of the file upon save.
 (setq require-final-newline t)
