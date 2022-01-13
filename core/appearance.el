@@ -153,6 +153,30 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 ;;; customize mode line
 (p/mod l modeline)
 
+;;; load font
+(defcustom p/main-font "Fira Code"
+  "Font to use."
+  :type 'string
+  :group 'p/font)
+
+(defcustom p/main-font-size 10
+  "Font size."
+  :type 'integer
+  :group 'p/font)
+
+(defun p/load-font (&optional frame)
+  (let ((-frame (or frame (selected-frame))))
+    (with-selected-frame -frame
+      (when (member p/main-font (font-family-list))
+        (set-face-attribute 'default -frame
+                            :font (format "%s-%d"
+                                          p/main-font
+                                          p/main-font-size))))))
+
+(if (daemonp)
+    (add-hook 'after-make-frame-functions #'p/load-font)
+  (add-hook 'after-init-hook #'p/load-font))
+
 ;;; Highlight TODO and stuff
 (use-package hl-todo
   :diminish hl-todo-mode
