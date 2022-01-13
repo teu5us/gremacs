@@ -141,46 +141,48 @@
         xref-show-definitions-function #'consult-xref)
 
   :config
-  (setq consult-narrow-key "<")
-  (with-eval-after-load 'projectile
-    (setq consult-project-root-function #'projectile-project-root))
-  (setq consult-preview-key nil)
-  (advice-add 'recentf-open-files :override #'consult-recent-file)
-  (global-set-key [remap imenu] 'consult-imenu)
+  (defun p/setup-consult ()
+    (setq consult-narrow-key "<")
+    (with-eval-after-load 'projectile
+      (setq consult-project-root-function #'projectile-project-root))
+    (setq consult-preview-key nil)
+    (advice-add 'recentf-open-files :override #'consult-recent-file)
+    (global-set-key [remap imenu] 'consult-imenu)
 
-  (defun consult-find-for-minibuffer ()
-    "Search file with find, enter the result in the minibuffer."
-    (interactive)
-    (let* ((enable-recursive-minibuffers t)
-           (default-directory (file-name-directory (minibuffer-contents)))
-           (file (consult--find
-                  (replace-regexp-in-string
-                   "\\s-*[:([].*"
-                   (format " (via find in %s): " default-directory)
-                   (minibuffer-prompt))
-                  #'consult--find-builder
-                  (file-name-nondirectory (minibuffer-contents)))))
-      (delete-minibuffer-contents)
-      (insert (expand-file-name file default-directory))
-      (exit-minibuffer)))
+    (defun consult-find-for-minibuffer ()
+      "Search file with find, enter the result in the minibuffer."
+      (interactive)
+      (let* ((enable-recursive-minibuffers t)
+             (default-directory (file-name-directory (minibuffer-contents)))
+             (file (consult--find
+                    (replace-regexp-in-string
+                     "\\s-*[:([].*"
+                     (format " (via find in %s): " default-directory)
+                     (minibuffer-prompt))
+                    #'consult--find-builder
+                    (file-name-nondirectory (minibuffer-contents)))))
+        (delete-minibuffer-contents)
+        (insert (expand-file-name file default-directory))
+        (exit-minibuffer)))
 
-  (defun define-minibuffer-key (key &rest defs)
-    "Define KEY conditionally in the minibuffer.
+    (defun define-minibuffer-key (key &rest defs)
+      "Define KEY conditionally in the minibuffer.
 DEFS is a plist associating completion categories to commands."
-    (define-key minibuffer-local-map key
-      (list 'menu-item nil defs :filter
-            (lambda (d)
-              (plist-get d (completion-metadata-get
-                            (completion-metadata (minibuffer-contents)
-                                                 minibuffer-completion-table
-                                                 minibuffer-completion-predicate)
-                            'category))))))
+      (define-key minibuffer-local-map key
+        (list 'menu-item nil defs :filter
+              (lambda (d)
+                (plist-get d (completion-metadata-get
+                              (completion-metadata (minibuffer-contents)
+                                                   minibuffer-completion-table
+                                                   minibuffer-completion-predicate)
+                              'category))))))
 
-  (define-minibuffer-key "\C-s"
-    'file #'consult-find-for-minibuffer)
+    (define-minibuffer-key "\C-s"
+      'file #'consult-find-for-minibuffer)
 
-  (:maps (:n :v) global "<leader>oi" #'imenu
-         (:n :v) global "<leader>oI" #'consult-imenu-multi))
+    (:maps (:n :v) global "<leader>oi" #'imenu
+           (:n :v) global "<leader>oI" #'consult-imenu-multi))
+  (add-hook 'after-init-hook #'p/setup-consult))
 
 ;;;;; lsp
 (use-package consult-lsp
