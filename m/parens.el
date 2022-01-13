@@ -101,13 +101,13 @@
     ("Xb" sp-extract-before-sexp "extract before")
     ("Xa" sp-extract-after-sexp "extract after")
 
-    ("Sh" sp-slurp-hybrid-sexp "slurp hybrid" :exit t :column "Slurp/Barf/Yank/Kill")
+    ("H" sp-slurp-hybrid-sexp "slurp hybrid" :exit t :column "Slurp/Barf/Yank/Kill")
     ("Sn" sp-add-to-next-sexp "add to next sexp")
     ("Sp" sp-add-to-previous-sexp "add to previous sexp")
-    ("Sf" sp-forward-slurp-sexp "slurp forward")
-    ("Sb" sp-backward-slurp-sexp "slurp backward")
-    ("Bf" sp-forward-barf-sexp "barf forward")
-    ("Bb" sp-backward-barf-sexp "barf backward")
+    (">" sp-forward-slurp-sexp "slurp forward")
+    ("<" sp-backward-slurp-sexp "slurp backward")
+    (")" sp-forward-barf-sexp "barf forward")
+    ("(" sp-backward-barf-sexp "barf backward")
     ("D" sp-kill-sexp "kill sexp")
     ("d" sp-backward-kill-sexp "backward kill sexp")
     ("cd" sp-clone-sexp "clone")
@@ -147,9 +147,7 @@
 (use-package evil-smartparens
   :diminish
   :after (evil smartparens)
-  :hook ((smartparens-mode smartparens-strict-mode)
-         .
-         evil-smartparens-mode))
+  :hook (prog-mode . evil-smartparens-mode))
 
 ;;;; load evil-lisp-state
 ;; (use-package evil-lisp-state
