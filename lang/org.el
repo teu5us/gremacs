@@ -23,13 +23,12 @@
                        (sequence "CANCELED(c)")))
   ;; nav
   (org-special-ctrl-a/e t)
+;;;;;; code
+  (org-src-fontify-natively t)
+  (org-src-preserve-indentation t)
 ;;;;; hooks
   :hook
   (org-mode . (lambda ()
-                ;; number headings
-                ;; (org-num-mode)
-                ;; visually indent text
-                (org-indent-mode)
                 (diminish 'org-num-mode)
                 (diminish 'org-indent-mode))))
 
