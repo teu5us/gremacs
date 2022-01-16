@@ -1,6 +1,8 @@
 ;; indentation.el --- Configure indentation -*- lexical-binding: t; -*-
 
 (defun p/setup-indentation ()
+  (setq-default electric-indent-inhibit t)
+  (setq-default backward-delete-char-untabify-method 'hungry)
   (setq-default indent-tabs-mode nil)
   (setq-default indent-line-function 'insert-tab)
   (setq-default tab-width 4)
@@ -20,3 +22,8 @@
   (add-hook 'post-command-hook #'smart-electric-indent-mode))
 
 (add-hook 'after-init-hook #'p/setup-indentation)
+
+(use-package hungry-delete
+  :custom
+  (hungry-delete-join-reluctantly t)
+  :hook (prog-mode . hungry-delete-mode))
