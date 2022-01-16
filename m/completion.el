@@ -181,7 +181,8 @@ DEFS is a plist associating completion categories to commands."
       'file #'consult-find-for-minibuffer)
 
     (:maps (:n :v) global "<leader>oi" #'imenu
-           (:n :v) global "<leader>oI" #'consult-imenu-multi))
+           (:n :v) global "<leader>oI" #'consult-imenu-multi
+           (:n :v :i :e) global "M-y" #'consult-yank-from-kill-ring))
   (add-hook 'after-init-hook #'p/setup-consult))
 
 ;;;;; lsp

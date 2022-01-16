@@ -364,7 +364,6 @@ By default the last line, but not the end of buffer."
    :a global "<leader>;" #'eval-expression
    :a global "<leader>u" #'universal-argument
    :a global  "<leader>fu" #'sudo-edit
-   :a global "M-y" #'yank-from-kill-ring
    :a global "C-s" #'consult-isearch
    )
 
