@@ -26,6 +26,11 @@
 ;;;;;; code
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t)
+  :config
+  (add-to-list 'org-latex-packages-alist
+               '("AUTO" "babel" t ("pdflatex")))
+  (add-to-list 'org-latex-packages-alist
+               '("AUTO" "polyglossia" t ("xelatex" "lualatex")))
 ;;;;; hooks
   :hook
   (org-mode . (lambda ()
