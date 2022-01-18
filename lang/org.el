@@ -149,6 +149,34 @@
   (p/require 'evil-org-mode 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
+;;;; org-ref
+(use-package org-ref
+  :after org
+  :init
+  (setq	bibtex-completion-display-formats
+        '((article       . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${journal:40}")
+          (inbook        . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} Chapter ${chapter:32}")
+          (incollection  . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+          (inproceedings . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*} ${booktitle:40}")
+          (t             . "${=has-pdf=:1}${=has-note=:1} ${year:4} ${author:36} ${title:*}"))
+        bibtex-completion-additional-search-fields
+        '(keywords))
+  :config
+  (defvar p/bibtex-bibliorgaphy-path "./bib")
+  (put 'p/bibtex-bibliography-bibliography-path 'safe-local-variable 'list)
+  (defun p/bibtex-completion-bibliography-from-path (path)
+    (p/require 'cl-lib 'cl-lib)
+    (cl-remove-if #'(lambda (str)
+                      (not (string-match-p "\\.bib\\'" str)))
+                  (directory-files path t nil t)))
+  (defun p/org-ref-insert-link (arg)
+    (interactive "P")
+    (let ((bibtex-completion-bibliography
+           (p/bibtex-completion-bibliography-from-path
+            p/bibtex-bibliorgaphy-path)))
+      (org-ref-insert-link arg)))
+  (:maps (:n :i :e) org-mode-map (kbd "C-c ]") #'p/org-ref-insert-link))
+
 ;;;; export backends
 ;;;;; pandoc
 (use-package ox-pandoc
