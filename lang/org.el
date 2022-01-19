@@ -168,27 +168,15 @@
         bibtex-completion-additional-search-fields
         '(keywords))
   :config
-  (defvar p/bibtex-bibliorgaphy-path "./bib")
-  (put 'p/bibtex-bibliography-bibliography-path 'safe-local-variable 'list)
   (defun p/bibtex-completion-bibliography-from-path (path)
     (p/require 'cl-lib 'cl-lib)
     (cl-remove-if #'(lambda (str)
                       (not (string-match-p "\\.bib\\'" str)))
                   (directory-files path t nil t)))
-  (defun p/org-ref-insert-link (arg)
-    (interactive "P")
-    (let ((bibtex-completion-bibliography
-           (p/bibtex-completion-bibliography-from-path
-            p/bibtex-bibliorgaphy-path)))
-      (org-ref-insert-link arg)))
-  (defun p/org-ref-insert-link-hydra ()
-    (interactive)
-    (let ((bibtex-completion-bibliography
-           (p/bibtex-completion-bibliography-from-path
-            p/bibtex-bibliorgaphy-path)))
-      (org-ref-insert-link-hydra/body)))
-  (:maps (:n :i :e) org-mode-map (kbd "C-c ]") #'p/org-ref-insert-link
-         (:n :i :e) org-mode-map (kbd "C-c r l") #'p/org-ref-insert-link-hydra
+  (defun p/setup-bib-completion (path)
+    (setq-local bibtex-completion-bibliography
+                (p/bibtex-completion-bibliography-from-path path)))
+  (:maps (:n :i :e) org-mode-map (kbd "C-c r l") #'org-ref-insert-link-hydra/body
          (:n :i :e) org-mode-map (kbd "C-c r c") #'org-ref-citation-hydra/body))
 
 ;;;; export backends
