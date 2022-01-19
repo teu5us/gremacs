@@ -26,6 +26,7 @@
 ;;;;;; code
   (org-src-fontify-natively t)
   (org-src-preserve-indentation t)
+;;;;; config
   :config
   (add-to-list 'org-latex-packages-alist
                '("AUTO" "babel" t ("pdflatex")))
@@ -180,7 +181,15 @@
            (p/bibtex-completion-bibliography-from-path
             p/bibtex-bibliorgaphy-path)))
       (org-ref-insert-link arg)))
-  (:maps (:n :i :e) org-mode-map (kbd "C-c ]") #'p/org-ref-insert-link))
+  (defun p/org-ref-insert-link-hydra ()
+    (interactive)
+    (let ((bibtex-completion-bibliography
+           (p/bibtex-completion-bibliography-from-path
+            p/bibtex-bibliorgaphy-path)))
+      (org-ref-insert-link-hydra/body)))
+  (:maps (:n :i :e) org-mode-map (kbd "C-c ]") #'p/org-ref-insert-link
+         (:n :i :e) org-mode-map (kbd "C-c r l") #'p/org-ref-insert-link-hydra
+         (:n :i :e) org-mode-map (kbd "C-c r c") #'org-ref-citation-hydra/body))
 
 ;;;; export backends
 ;;;;; pandoc
