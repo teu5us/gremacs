@@ -179,6 +179,12 @@
   (:maps (:n :i :e) org-mode-map (kbd "C-c r l") #'org-ref-insert-link-hydra/body
          (:n :i :e) org-mode-map (kbd "C-c r c") #'org-ref-citation-hydra/body))
 
+;;;; toc-org
+(use-package toc-org
+  :hook (org-mode . toc-org-mode)
+  :init
+  (add-to-list 'org-tag-alist '("TOC" . ?T)))
+
 ;;;; export backends
 ;;;;; pandoc
 (use-package ox-pandoc
