@@ -242,11 +242,14 @@ targets."
   (company-echo-delay 0)
   (company-minimum-prefix-length 1)
   (company-selection-wrap-around t)
-  :bind (:map company-active-map
-	          ("C-f" . #'company-filter-candidates)
-              ("C-k" . nil)
-              ("C-j" . nil)
-              ("<return>" . nil))
+  :bind
+  (:map company-active-map
+        ("C-f" . #'company-filter-candidates)
+        ("C-k" . nil)
+        ("C-j" . nil)
+        ("<return>" . nil))
+  (:map company-tng-map
+        ("C-n" . #'company-select-next))
   :config
   (company-tng-configure-default)
   (defun just-one-face (fn &rest args)
