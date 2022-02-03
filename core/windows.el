@@ -28,7 +28,7 @@
   (purpose-default-layout-file (expand-file-name ".purpose-layout" p/user-dir))
 ;;;;; init
   :init
-  (p/require 'cl-lib 'cl-lib)
+  (require 'cl-lib)
   (defun p/define-purpose (&rest specs)
     (dolist (spec specs)
       (cl-destructuring-bind (rule-type &rest rule-values) spec

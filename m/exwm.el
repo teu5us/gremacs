@@ -71,7 +71,7 @@
   ;;   (interactive)
   ;;   (+vterm/toggle t))
 ;;;; configuration
-  (p/require 'exwm 'exwm-config)
+  (require 'exwm-config)
   (defun p/exwm-ws-number (n)
     (number-to-string (1+ n)))
   (setq exwm-workspace-index-map #'p/exwm-ws-number)
@@ -209,10 +209,10 @@ mouse-2: EXWM Workspace menu.
   ;; `exwm-mode-line-format'.
   (add-to-list 'mode-line-misc-info exwm-mode-line-format)
 ;;;; systray
-  (p/require 'exwm 'exwm-systemtray)
+  (require 'exwm-systemtray)
   (exwm-systemtray-enable)
 ;;;; xim
-  (p/require 'exwm 'exwm-xim)
+  (require 'exwm-xim)
   (add-hook 'exwm-init-hook #'(lambda ()
                                 (when (featurep 'evil)
                                   (evil-set-initial-state 'exwm-mode 'emacs))))
@@ -225,7 +225,7 @@ mouse-2: EXWM Workspace menu.
   (push s-space exwm-input-prefix-keys)
   (exwm-xim-enable)
 ;;;; randr
-  (p/require 'exwm 'exwm-randr)
+  (require 'exwm-randr)
   ;; (setq exwm-randr-workspace-monitor-plist '(0 "HDMI-1"))
   ;; (setq exwm-randr-workspace-monitor-plist '(0 "DP-2"))
   ;; (add-hook 'exwm-randr-screen-change-hook

@@ -35,7 +35,7 @@
 (p/bind :m motion)
 
 (defmacro :map (states map key function)
-  (p/require 'cl-lib 'cl-lib)
+  (require 'cl-lib)
   (let ((-states (if (and (symbolp states)
                           (eq states :a))
                      '(:n :v :e :i :o :r :m)
@@ -50,7 +50,7 @@
                                 function)))))
 
 (defmacro :maps (&rest decls)
-  (p/require 'cl-lib 'cl-lib)
+  (require 'cl-lib)
   `(progn
      ,@(cl-loop for (states map key function) on decls by #'cddddr
                 collect `(:map ,states ,map ,key ,function))))
@@ -111,7 +111,7 @@
   (defun p/boon-modeline-string ()
     (concat " <" (boon-state-string) ">"))
   (advice-add #'boon-modeline-string :override #'p/boon-modeline-string)
-  (p/require 'boon 'boon-qwerty)
+  (require 'boon-qwerty)
   (p/boon-modeline-im-setup))
 
 ;;;; load multiple-cursors

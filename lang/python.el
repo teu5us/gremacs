@@ -13,7 +13,7 @@
 (use-package lsp-pyright
   :after lsp-mode
   :config
-  (p/require 'lsp-pyright 'lsp-pyright)
+  (require 'lsp-pyright)
   :custom
   (lsp-pyright-multi-root nil))
 

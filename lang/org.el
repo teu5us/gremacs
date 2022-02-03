@@ -152,7 +152,7 @@
 
 ;;;;; enable evil-org
   (evil-org-set-key-theme)
-  (p/require 'evil-org-mode 'evil-org-agenda)
+  (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
 ;;;; org-ref
@@ -169,7 +169,7 @@
         '(keywords))
   :config
   (defun p/bibtex-completion-bibliography-from-path (path)
-    (p/require 'cl-lib 'cl-lib)
+    (require 'cl-lib)
     (cl-remove-if #'(lambda (str)
                       (not (string-match-p "\\.bib\\'" str)))
                   (directory-files path t nil t)))
@@ -189,4 +189,4 @@
 ;;;;; pandoc
 (use-package ox-pandoc
   :after org
-  :config (p/require 'ox-pandoc 'ox-pandoc))
+  :config (require 'ox-pandoc))

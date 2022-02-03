@@ -6,7 +6,7 @@
 
 ;;; Code:
 
-(p/require 'cl-lib 'cl-lib)
+(require 'cl-lib)
 
 ;;;; vars
 (defvar p/popup-buffers nil

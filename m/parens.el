@@ -21,7 +21,7 @@
                          sly-mrepl-mode)))
 ;;;;; config
   :config
-  (p/require 'smartparens 'smartparens-config)
+  (require 'smartparens-config)
 ;;;;;; define motions for lispy modes
   ;; (defun p/load-lispy-parens-bindings ()
   ;;   (:maps (:n :i) local "M-<backspace>" #'sp-backward-kill-sexp

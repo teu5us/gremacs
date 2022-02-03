@@ -63,31 +63,31 @@
                    args))))
 
   ;; vertico-quick
-  (p/require 'vertico "extensions/vertico-quick" 'vertico-quick)
+  (require 'vertico-quick)
   (define-key vertico-map (kbd "M-q") #'vertico-quick-insert)
   (define-key vertico-map (kbd "M-j") #'vertico-quick-jump)
 
   ;; vertico-directory
-  (p/require 'vertico "extensions/vertico-directory" 'vertico-directory)
+  (require 'vertico-directory)
   (define-key vertico-map (kbd "RET") #'vertico-directory-enter)
   (define-key vertico-map (kbd "DEL") #'vertico-directory-delete-char)
   (define-key vertico-map (kbd "M-DEL") #'vertico-directory-delete-word)
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
 
   ;; vertico-flat
-  (p/require 'vertico "extensions/vertico-flat" 'vertico-flat)
+  (require 'vertico-flat)
 
   ;; vertico-buffer
-  (p/require 'vertico "extensions/vertico-buffer" 'vertico-buffer)
+  (require 'vertico-buffer)
 
   ;; vertico-grid
-  (p/require 'vertico "extensions/vertico-grid" 'vertico-grid)
+  (require 'vertico-grid)
 
   ;; vertico-unobtrusive
-  (p/require 'vertico "extensions/vertico-unobtrusive" 'vertico-unobtrusive)
+  (require 'vertico-unobtrusive)
 
   ;; vertico-multiform
-  (p/require 'vertico "extensions/vertico-multiform" 'vertico-multiform)
+  (require 'vertico-multiform)
 
   (setq vertico-multiform-commands
         `((consult-imenu buffer)
