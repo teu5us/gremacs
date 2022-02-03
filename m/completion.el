@@ -251,7 +251,9 @@ targets."
   (:map company-tng-map
         ("C-n" . #'company-select-next))
   :config
-  (company-tng-configure-default)
+  (unless (fboundp 'company-tng-mode)
+    (require 'company-tng))
+  (company-tng-mode)
   (defun just-one-face (fn &rest args)
     (let ((orderless-match-faces [completions-common-part]))
       (apply fn args)))
