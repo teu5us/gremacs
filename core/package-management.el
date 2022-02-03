@@ -12,9 +12,10 @@
 (defvar straight-use-package-by-default t)
 (defvar straight-repository-branch "develop")
 (defvar straight-build-dir (format "build-%s" emacs-version))
+(defvar straight-base-dir "~/.cache/")
 
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
