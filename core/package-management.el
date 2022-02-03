@@ -25,7 +25,8 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(load (expand-file-name "core/nix-store-packages.el" user-emacs-directory))
+(ignore-errors
+    (require 'nix-store-emacs-packages))
 
 ;; Install use-package
 (eval-when-compile
