@@ -37,6 +37,7 @@
 
 ;;;; vertico
 (use-package vertico
+  :disabled
   :custom
   (vertico-scroll-margin 0)
   (vertico-count 10)
@@ -107,7 +108,6 @@
 
 ;;;; selectrum
 (use-package selectrum
-  :disabled
   :after orderless
   :custom
   (orderless-skip-highlighting #'(lambda () selectrum-is-active))
