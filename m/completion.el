@@ -8,7 +8,7 @@
 (use-package orderless
   :after marginalia
   :custom
-  (orderless-component-separator "[ -_&]")
+  ;; (orderless-component-separator "[ -_&]")
   (orderless-matching-styles '(orderless-regexp
                                orderless-literal
                                orderless-initialism
