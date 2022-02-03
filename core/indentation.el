@@ -24,6 +24,7 @@
 (add-hook 'after-init-hook #'p/setup-indentation)
 
 (use-package hungry-delete
+  :diminish hungry-delete-mode
   :custom
   (hungry-delete-join-reluctantly t)
   :hook (prog-mode . hungry-delete-mode))
