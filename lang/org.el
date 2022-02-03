@@ -181,6 +181,7 @@
 
 ;;;; toc-org
 (use-package toc-org
+  :after org
   :hook (org-mode . toc-org-mode)
   :init
   (add-to-list 'org-tag-alist '("TOC" . ?T)))
