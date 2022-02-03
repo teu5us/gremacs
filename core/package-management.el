@@ -26,7 +26,7 @@
   (load bootstrap-file nil 'nomessage))
 
 (ignore-errors
-    (require 'nix-store-emacs-packages))
+    (require 'nix-straight-overrides))
 
 ;; Install use-package
 (eval-when-compile
