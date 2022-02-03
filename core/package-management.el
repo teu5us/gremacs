@@ -25,9 +25,13 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(load (expand-file-name "core/nix-store-packages.el" user-emacs-directory))
+
 ;; Install use-package
-(straight-use-package 'use-package)
-(setq use-package-compute-statistics t)
+(eval-when-compile
+  (straight-use-package 'use-package)
+  (unless (fboundp 'use-package)
+    (require 'use-package)))
 
 (use-package git)
 
