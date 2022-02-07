@@ -264,6 +264,7 @@ targets."
 			                backends))))
   (p/:company-backends 'emacs-lisp-mode-hook
 		               '((:separate company-capf
+                                    company-dabbrev-code
 				                    company-files
 				                    company-keywords
 				                    company-yasnippet)))
