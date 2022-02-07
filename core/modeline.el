@@ -148,6 +148,6 @@ mouse-3: Toggle minor modes"
 
 ;;;;; add a box around header line
 (custom-theme-set-faces 'user
-                        '(header-line ((t (:box t)))))
+                        '(header-line ((t (:underline t)))))
 
 ;;; modeline.el ends here
