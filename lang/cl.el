@@ -23,6 +23,8 @@
                  (popup . t)
                  (dedicated . t)))
   (push "\\*sly-db*" p/buffer-predicate-names)
+  (push "\\*sly-compilation*" p/buffer-predicate-names)
+  (push "\\*sly-traces*" p/buffer-predicate-names)
   (push "\\*sly-inspector*" p/buffer-predicate-names)
   :custom
   (sly-complete-symbol-function 'sly-flex-completions)
