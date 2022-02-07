@@ -19,4 +19,14 @@
                  telega-chat-mode
                  telega-webpage-mode
                  telega-image-mode))
-      (push m boon-special-mode-list))))
+      (push m boon-special-mode-list)))
+  (defun p/telega-server--find-bin ()
+    "Find telega-server executable.
+Raise error if not found."
+    (let ((exec-path (cons telega-directory exec-path)))
+      (or (executable-find "telega-server")
+          (executable-find telega-server-command)
+          (progn (telega-server-build)
+                 (executable-find "telega-server"))
+          (error "`telega-server' not found in exec-path"))))
+  (advice-add 'telega-server--find-bin :override #'p/telega-server--find-bin))
