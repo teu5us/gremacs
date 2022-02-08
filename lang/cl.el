@@ -4,28 +4,10 @@
   :commands (sly)
   :bind (:map lisp-mode-map ("C-c C-z" . sly))
   :preface
-  (add-to-list 'display-buffer-alist
-               '("^\\*sly-\\(?:compilation\\|traces\\)*"
-                 (display-buffer-reuse-mode-window
-                  display-buffer-in-previous-window
-                  display-buffer-pop-up-window)
-                 (inhibit-switch-frame . t)
-                 (reusable-frames . nil)
-                 (window . root)
-                 (direction . below)
-                 (window-height . 0.25)))
-  (add-to-list 'display-buffer-alist
-               '("sly-mrepl*"
-                 (display-buffer-reuse-window display-buffer-below-selected)
-                 (inhibit-switch-frame . t)
-                 (window-height . 0.3)
-                 (direction . below)
-                 (popup . t)
-                 (dedicated . t)))
-  (push "\\*sly-db*" p/buffer-predicate-names)
-  (push "\\*sly-compilation*" p/buffer-predicate-names)
-  (push "\\*sly-traces*" p/buffer-predicate-names)
-  (push "\\*sly-inspector*" p/buffer-predicate-names)
+  (p/defpopups `(("^\\*sly-mrepl.*" :side bottom :height 0.3 :override-quit nil)
+                 ("^\\*sly-compilation.*" :side left :width 0.5)
+                 ("^\\*sly-traces.*" :side left :width 0.5)
+                 ("^\\*sly-db.*" :side right :width 0.5)))
   :custom
   (sly-complete-symbol-function 'sly-flex-completions)
   (sly-net-coding-system 'utf-8-unix)
