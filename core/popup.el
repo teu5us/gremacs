@@ -106,21 +106,22 @@ HLINE defines if header line should be displayed.  Default: 'none."
         (append p/popup-buffers display-buffer-alist)))
 
 ;;;; define some rules
-(p/defpopups `(("*helpful.*" :side right :width 0.5)
-               ("*Customize.*" :side right :width 0.5)
-               ("*Help.*" :side right :width 0.5)
-               ("*Finder.*" :side right :width 0.5)
-               ("Aweshell:.*" :side top :height 0.25)
-               ("*Org Export Dispatcher" :side bottom)
-               ("*rg*" :side right)
-               ("*grep*" :side right)
-               ("*Occur*" :side right)
-               ("*Backtrace*" :side bottom :height 0.3)))
+(p/defpopups `(("^\\*helpful.*" :side right :width 0.5)
+               ("^\\*Customize.*" :side right :width 0.5)
+               ("^\\*Help.*" :side right :width 0.5)
+               ("^\\*Finder.*" :side right :width 0.5)
+               ("^\\Aweshell:.*" :side top :height 0.25)
+               ("^\\*Org Export Dispatcher" :side bottom)
+               ("^\\*rg*" :side right)
+               ("^\\*grep*" :side right)
+               ("^\\*Occur*" :side right)
+               ("^\\*Backtrace*" :side bottom :height 0.3)))
 
 ;;;; change quit-window to kill popups
 (defun p/quit-window--popup-p (&optional kill window)
   "Filter `quit-window' args to kill popups."
-  (list (when (window-parameter (selected-window) 'p/popup) t) window))
+  (list (when (or kill
+                  (window-parameter (selected-window) 'p/popup)) t) window))
 
 (advice-add #'quit-window :filter-args #'p/quit-window--popup-p)
 
