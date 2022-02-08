@@ -51,7 +51,8 @@ frame."
                           (height 20)
                           (width 60)
                           (mline 'none)
-                          (hline 'none))
+                          (hline 'none)
+                          (override-quit t))
   "Define a popup window to be added to `display-buffer-alist'.
 
 KEY must be a function or a regexp string.
@@ -81,7 +82,7 @@ HLINE defines if header line should be displayed.  Default: 'none."
                      (cons 'window-width width)
                      (cons 'dedicated t)
                      (list 'window-parameters
-                           (cons 'p/popup t)
+                           (cons 'p/popup override-quit)
                            (cons 'mode-line-format mline)
                            (cons 'header-line-format hline))))
   (when apply (p/push-dba)))
