@@ -153,7 +153,7 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 ;;; customize mode line
 (p/mod l modeline)
 
-;;; load font
+;;; load fonts
 (defcustom p/main-font "Fira Code"
   "Font to use."
   :type 'string
@@ -164,18 +164,34 @@ Chosen buffer must be a file buffer or a buffer stored in variable
   :type 'integer
   :group 'p/font)
 
-(defun p/load-font (&optional frame)
+(defcustom p/variable-pitch-font "Arimo"
+  "Variable pitch font to use."
+  :type 'string
+  :group 'p/font)
+
+(defcustom p/variable-pitch-font-size 10
+  "Font size."
+  :type 'integer
+  :group 'p/font)
+
+(defun p/fonts ()
+  `((default ,p/main-font ,p/main-font-size)
+    (variable-pitch ,p/variable-pitch-font ,p/variable-pitch-font-size)))
+
+(defun p/load-font (face font size &optional frame)
+  (with-selected-frame frame
+    (when (member font (font-family-list))
+      (set-face-attribute face nil
+                          :font (format "%s-%d" font size)))))
+
+(defun p/load-fonts (&optional frame)
   (let ((-frame (or frame (selected-frame))))
-    (with-selected-frame -frame
-      (when (member p/main-font (font-family-list))
-        (set-face-attribute 'default -frame
-                            :font (format "%s-%d"
-                                          p/main-font
-                                          p/main-font-size))))))
+    (dolist (spec (p/fonts))
+      (apply #'p/load-font (append spec (list -frame))))))
 
 (if (daemonp)
-    (add-hook 'after-make-frame-functions #'p/load-font)
-  (add-hook 'after-init-hook #'p/load-font))
+    (add-hook 'after-make-frame-functions #'p/load-fonts)
+  (add-hook 'after-init-hook #'p/load-fonts))
 
 ;;; Highlight TODO and stuff
 (use-package hl-todo
