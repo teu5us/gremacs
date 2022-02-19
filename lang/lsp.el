@@ -21,6 +21,8 @@
     (when (lsp--find-clients)
       (lsp-deferred)))
   :config
+  (require 'lsp-lens)
+  (require 'lsp-modeline)
   (defun p/lsp-update-server ()
     "Update LSP server."
     (interactive)
