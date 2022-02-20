@@ -16,9 +16,11 @@
 
 ;;;; continuous scroll
 (use-package pdf-continuous-scroll-mode
+  :disabled
   :after pdf-tools
   :straight (:type git :host github :repo "dalanicolai/pdf-continuous-scroll-mode.el")
-  :commands (pdf-continuous-next-page
+  :commands (pdf-continuous-scroll-mode
+             pdf-continuous-next-page
              pdf-continuous-previous-page
              pdf-continuous-scroll-forward
              pdf-continuous-scroll-backward)
