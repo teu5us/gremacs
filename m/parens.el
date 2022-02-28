@@ -147,7 +147,9 @@
 (use-package evil-smartparens
   :diminish
   :after (evil smartparens)
-  :hook (prog-mode . evil-smartparens-mode))
+  :hook (prog-mode . (lambda ()
+                       (when (p/lisp?)
+                         (evil-smartparens-mode 1)))))
 
 ;;;; load evil-lisp-state
 ;; (use-package evil-lisp-state
