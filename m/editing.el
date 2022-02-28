@@ -254,6 +254,12 @@ By default the last line, but not the end of buffer."
 
   (advice-add #'evil-goto-line :override #'p/evil-goto-line)
   (advice-add #'evil-force-normal-state :after #'evil-ex-nohighlight)
+
+;;;;; volatile-highlight extension
+  (with-eval-after-load 'volatile-highlights
+    (vhl/define-extension 'evil 'evil-paste-after 'evil-paste-before
+                          'evil-paste-pop 'evil-move)
+    (vhl/install-extension 'evil))
   )
 
 ;;;; load evil-collection

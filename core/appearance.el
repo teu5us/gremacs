@@ -197,3 +197,7 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 (use-package hl-todo
   :diminish hl-todo-mode
   :hook (prog-mode . hl-todo-mode))
+
+;;; volatile highlights
+(use-package volatile-highlights
+  :hook (after-init . volatile-highlights-mode))
