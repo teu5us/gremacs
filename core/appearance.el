@@ -200,4 +200,5 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 
 ;;; volatile highlights
 (use-package volatile-highlights
+  :diminish
   :hook (after-init . volatile-highlights-mode))
