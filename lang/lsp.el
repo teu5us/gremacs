@@ -5,7 +5,7 @@
   :hook
   (find-file . p/lsp-deferred-unless-client)
   :custom
-  (lsp-keymap-prefix nil)
+  (lsp-keymap-prefix "SPC k")
   (lsp-auto-guess-root nil)
   (lsp-prefer-flymake nil) ; Use flycheck instead of flymake
   (lsp-enable-file-watchers nil)
@@ -14,8 +14,6 @@
   (lsp-keep-workspace-alive nil)
   (lsp-eldoc-hook nil)
   (lsp-headerline-breadcrumb-enable nil)
-  :bind
-  (:map lsp-mode-map ("F" . lsp-format-buffer))
   :init
   (defun p/lsp-deferred-unless-client ()
     (when (lsp--find-clients)
@@ -51,9 +49,9 @@
   (lsp-ui-doc-header t)
   (lsp-ui-doc-include-signature t)
   (lsp-ui-doc-border (face-foreground 'default))
-  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-enable t)
   (lsp-ui-sideline-ignore-duplicate t)
-  (lsp-ui-sideline-show-code-actions nil)
+  (lsp-ui-sideline-show-code-actions t)
   :config
   ;; Use lsp-ui-doc-webkit only in GUI
   (when (display-graphic-p)
