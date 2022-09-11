@@ -5,7 +5,7 @@
   :hook
   (find-file . p/lsp-deferred-unless-client)
   :custom
-  (lsp-keymap-prefix "SPC k")
+  (lsp-keymap-prefix "M-l")
   (lsp-auto-guess-root nil)
   (lsp-prefer-flymake nil) ; Use flycheck instead of flymake
   (lsp-enable-file-watchers nil)
