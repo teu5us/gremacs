@@ -21,6 +21,9 @@
          (:map evil-normal-state-map ("<leader>oe" . aweshell-dedicated-toggle))
          (:map evil-visual-state-map ("<leader>oe" . aweshell-dedicated-toggle))
          (:map eshell-mode-map ("C-d" . eshell-life-is-too-much)))
+  :init
+  (:maps (:n :v :i) eshell-mode-map "C-d" #'eshell-life-is-too-much
+         (:n :v :i) global "<leader>oe" #'aweshell-dedicated-toggle)
   :config
   (defun p/aweshell-dedicated-kill ()
     (interactive)
@@ -31,6 +34,4 @@
                               (substring (buffer-name aweshell-dedicated-buffer) 10))
           (kill-buffer aweshell-dedicated-buffer)))))
   (advice-add #'aweshell-dedicated-open :before #'p/aweshell-dedicated-kill)
-  (:maps (:n :v :i) eshell-mode-map "C-d" #'eshell-life-is-too-much
-         (:n :v :i) global "<leader>oe" #'aweshell-dedicated-toggle)
   (push "\\Aweshell:" special-display-regexps))
