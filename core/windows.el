@@ -16,6 +16,47 @@
 ;; TODO: maybe switch to popper.el (https://github.com/karthink/popper)
 (p/mod l popup)
 
+;;;; splits
+(defun p/split-window-sensibly (&optional window)
+  (let ((window (or window (selected-window))))
+    (or (and (window-splittable-p window t)
+	     ;; Split window vertically.
+	     (with-selected-window window
+	       (split-window-right)))
+	(and (window-splittable-p window)
+	     ;; Split window horizontally.
+	     (with-selected-window window
+	       (split-window-below)))
+	(and
+         ;; If WINDOW is the only usable window on its frame (it is
+         ;; the only one or, not being the only one, all the other
+         ;; ones are dedicated) and is not the minibuffer window, try
+         ;; to split it vertically disregarding the value of
+         ;; `split-height-threshold'.
+         (let ((frame (window-frame window)))
+           (or
+            (eq window (frame-root-window frame))
+            (catch 'done
+              (walk-window-tree (lambda (w)
+                                  (unless (or (eq w window)
+                                              (window-dedicated-p w))
+                                    (throw 'done nil)))
+                                frame nil 'nomini)
+              t)))
+	 (not (window-minibuffer-p window))
+	 (let ((split-height-threshold 0))
+	   (when (window-splittable-p window)
+	     (with-selected-window window
+	       (split-window-below))))))))
+
+(advice-add 'split-window-sensibly :override #'p/split-window-sensibly)
+
+;;;; ediff splits
+(setq
+ ediff-window-setup-function 'ediff-setup-windows-plain
+ ediff-diff-options "-w"
+ ediff-split-window-function 'split-window-horizontally)
+
 ;;;; window-purpose (disabled now)
 (use-package window-purpose
   :disabled
