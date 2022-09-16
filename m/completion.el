@@ -186,6 +186,17 @@ DEFS is a plist associating completion categories to commands."
            (:n :v :i :e) global "M-y" #'consult-yank-from-kill-ring))
   (add-hook 'after-init-hook #'p/setup-consult))
 
+;;;;; consult-dir
+(use-package consult-dir
+  :after consult
+  :bind (("C-x C-d" . consult-dir)
+         :map minibuffer-local-completion-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)
+         :map selectrum-minibuffer-map
+         ("C-x C-d" . consult-dir)
+         ("C-x C-j" . consult-dir-jump-file)))
+
 ;;;;; lsp
 (use-package consult-lsp
   ;; :after (consult lsp)
