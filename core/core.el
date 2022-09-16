@@ -158,6 +158,9 @@ check the value of GROUND_EMACS_USERDIR environment variable")))
 (when (fboundp 'global-so-long-mode)
   (add-hook 'after-init-hook #'global-so-long-mode))
 
+;;;; disable bell
+(setq ring-bell-function 'ignore)
+
 ;;;; add a newline automatically at the end of the file upon save.
 (setq require-final-newline t)
 
