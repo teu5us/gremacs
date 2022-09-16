@@ -20,7 +20,8 @@
   ;;          (electric-indent-mode 0))
   ;;         ((eq electric-indent-mode nil) (electric-indent-mode 1))))
   ;; (add-hook 'post-command-hook #'smart-electric-indent-mode))
-  (add-hook 'prog-mode-hook #'electric-indent-local-mode))
+  (add-hook 'prog-mode-hook #'electric-indent-local-mode)
+  (electric-pair-mode 1))
 
 (add-hook 'after-init-hook #'p/setup-indentation)
 
