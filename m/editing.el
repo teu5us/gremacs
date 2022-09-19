@@ -360,7 +360,6 @@ By default the last line, but not the end of buffer."
    :a global "<leader>fp" #'find-file-user-dir
    :a global "<leader>fP" #'find-file-conf-dir
    :a global "<leader>fr" #'recentf-open-files
-   :a global "<leader>," #'switch-to-buffer
    :a global "<leader>bb" #'switch-to-buffer
    :a global "<leader>bd" #'kill-current-buffer
    :a global "<leader>bD" #'kill-buffer-and-window
@@ -369,7 +368,11 @@ By default the last line, but not the end of buffer."
    :a global "<leader>br" #'revert-buffer-noconfirm
    :a global "<leader>;" #'eval-expression
    :a global "<leader>u" #'universal-argument
-   :a global  "<leader>fu" #'sudo-edit
+   :a global "<leader>fu" #'sudo-edit
+   :a global "<leader>," #'consult-buffer
+   :a global "C-x b" #'consult-buffer
+   :a global "C-x 4 b" #'consult-buffer-other-window
+   :a global "C-x 5 b" #'consult-buffer-other-frame
    )
 
 ;;;; search/replace stuff
