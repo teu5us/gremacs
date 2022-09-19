@@ -16,6 +16,9 @@
 ;; TODO: maybe switch to popper.el (https://github.com/karthink/popper)
 (p/mod l popup)
 
+;;;; better buffer switching
+(setq switch-to-buffer-obey-display-actions t)
+
 ;;;; splits
 (defun p/split-window-sensibly (&optional window)
   (let ((window (or window (selected-window))))
