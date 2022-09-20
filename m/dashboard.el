@@ -13,6 +13,7 @@
                   (dashboard-setup-startup-hook)
                   (advice-add #'find-file :after #'p/dashboard-refresh-buffer)))
   :config
+  (:map (:n :v) dashboard-mode-map "x" #'dashboard-remove-item-under)
   (push "*dashboard*" p/buffer-predicate-names)
 ;;;;; automatically refresh dashboard in the background (see hook above)
   (defun p/dashboard-refresh-buffer (&rest args)
