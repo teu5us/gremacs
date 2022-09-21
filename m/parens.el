@@ -135,7 +135,7 @@
   ((sly-mrepl-mode prog-mode)
    .
    (lambda ()
-     (smartparens-strict-mode)
+     (smartparens-mode)
      (if (p/lisp?)
          (progn
            (local-set-key (kbd "C-l") #'hydra-sp/body)
@@ -146,10 +146,23 @@
 ;;;; load evil-smartparens
 (use-package evil-smartparens
   :diminish
-  :after (evil smartparens)
+  :commands (evil-smartparens-mode)
   :hook (prog-mode . (lambda ()
                        (when (p/lisp?)
                          (evil-smartparens-mode 1)))))
+
+;;;; load evil-cleverparens
+(use-package evil-cleverparens
+  :diminish
+  :commands (evil-cleverparens-mode)
+  :config
+  (require 'evil-cleverparens-text-objects)
+  :custom
+  (evil-cleverparens-use-additional-movement-keys t)
+  (evil-cleverparens-move-skip-delimeters t)
+  :hook (prog-mode . (lambda ()
+                       (when (p/lisp?)
+                         (evil-cleverparens-mode 1)))))
 
 ;;;; load evil-lisp-state
 ;; (use-package evil-lisp-state
