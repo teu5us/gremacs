@@ -9,7 +9,8 @@
   (push '(tool-bar-lines . 0) default-frame-alist)
   (push '(vertical-scroll-bars) default-frame-alist)
   (push '(bottom-divider-width . 1) default-frame-alist)
-  (push '(alpha . 100) default-frame-alist))
+  (push '(alpha . 100) default-frame-alist)
+  (push '(fullscreen . maximized) default-frame-alist))
 (add-hook 'after-init-hook #'p/setup-interface)
 
 ;;; Hide the default buffer margins
