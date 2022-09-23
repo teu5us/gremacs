@@ -75,6 +75,7 @@
 
 ;;;; load boon
 (use-package boon
+  :disabled
   :demand t
   :hook
   (evil-emacs-state-entry . turn-on-boon-mode)
