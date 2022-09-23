@@ -21,20 +21,21 @@
 
 ;;;; splits
 (defun p/split-window-sensibly (&optional window)
+  "`split-window-sensibly', but prefer vsplit"
   (let ((window (or window (selected-window))))
     (or (and (window-splittable-p window t)
-	     ;; Split window vertically.
-	     (with-selected-window window
-	       (split-window-right)))
-	(and (window-splittable-p window)
-	     ;; Split window horizontally.
-	     (with-selected-window window
-	       (split-window-below)))
-	(and
+             ;; Split window horizontally.
+             (with-selected-window window
+               (split-window-right)))
+        (and (window-splittable-p window)
+             ;; Split window vertically.
+             (with-selected-window window
+               (split-window-below)))
+        (and
          ;; If WINDOW is the only usable window on its frame (it is
          ;; the only one or, not being the only one, all the other
          ;; ones are dedicated) and is not the minibuffer window, try
-         ;; to split it vertically disregarding the value of
+         ;; to split it horizontally disregarding the value of
          ;; `split-height-threshold'.
          (let ((frame (window-frame window)))
            (or
@@ -46,11 +47,11 @@
                                     (throw 'done nil)))
                                 frame nil 'nomini)
               t)))
-	 (not (window-minibuffer-p window))
-	 (let ((split-height-threshold 0))
-	   (when (window-splittable-p window)
-	     (with-selected-window window
-	       (split-window-below))))))))
+         (not (window-minibuffer-p window))
+         (let ((split-width-threshold 0))
+           (when (window-splittable-p window t)
+             (with-selected-window window
+               (split-window-right))))))))
 
 (advice-add 'split-window-sensibly :override #'p/split-window-sensibly)
 
