@@ -10,6 +10,8 @@
 (use-package ranger
   :commands (deer ranger)
   :bind ([remap dired] . deer)
+  :init
+  (advice-add 'dired :override #'deer)
   :config
   (:maps (:n :v) global "<leader>od" #'deer
          (:n :v) global "<leader>oD" #'dired
