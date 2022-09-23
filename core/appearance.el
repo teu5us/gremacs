@@ -130,7 +130,6 @@ Chosen buffer must be a file buffer or a buffer stored in variable
 (setq display-buffer-base-action
       '(display-buffer--maybe-same-window
         display-buffer-reuse-window
-        display-buffer--maybe-pop-up-window
         display-buffer-in-previous-window
         display-buffer-below-selected
         display-buffer-at-bottom
