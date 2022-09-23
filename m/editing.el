@@ -159,9 +159,10 @@
   (evil-mode . p/evil-modeline-im-setup)
   (after-init . (lambda ()
                   (:maps (:n :v :o :m) global p/evil-leader 'leader-map
-                         (:n :v :o :m) global p/evil-localleader 'localleader-map
+                         (:n :v :o :m) global p/evil-localleader 'evil-send-localleader
                          (:e :r :i) global p/evil-emacs-leader 'leader-map
-                         (:e :r :i) global p/evil-emacs-localleader 'localleader-map)
+                         (:e :r :i) global p/evil-emacs-localleader 'evil-send-localleader
+                         )
                   (evil-mode 1)))
 ;;;;; pre
   :preface
@@ -188,17 +189,18 @@
   :init
   ;; define and load leaders
   (define-prefix-command 'leader-map)
-  (define-prefix-command 'localleader-map)
+  ;; (define-prefix-command 'localleader-map)
 
   (global-set-key (kbd "<leader>") 'leader-map)
-  (global-set-key (kbd "<localleader>") 'localleader-map)
+  (global-set-key (kbd "<localleader>") 'evil-send-localleader)
 
-  (defun p/set-mode-local-leaders ()
-    (local-set-key (kbd "<leader>") 'leader-map)
-    (local-set-key (kbd "<localleader>") 'localleader-map))
+  ;; (defun p/set-mode-local-leaders ()
+  ;;   (local-set-key (kbd "<leader>") 'leader-map)
+  ;;   (local-set-key (kbd "<localleader>") 'localleader-map)
+  ;;   )
 
-  (add-hook 'text-mode-hook #'p/set-mode-local-leaders -90)
-  (add-hook 'prog-mode-hook #'p/set-mode-local-leaders -90)
+  ;; (add-hook 'text-mode-hook #'p/set-mode-local-leaders -90)
+  ;; (add-hook 'prog-mode-hook #'p/set-mode-local-leaders -90)
 
   ;; set some stuff before we load evil
   (setq evil-want-integration t
