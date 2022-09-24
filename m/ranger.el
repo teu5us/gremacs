@@ -9,15 +9,13 @@
 
 (use-package ranger
   :commands (deer ranger)
-  :bind ([remap dired] . deer)
+  :defines (ranger-override-dired)
   :init
-  (advice-add 'dired :override #'deer)
+  (setq ranger-override-dired t)
   :config
   (:maps (:n :v) global "<leader>od" #'deer
-         (:n :v) global "<leader>oD" #'dired
          (:n :v) global "<leader>-" #'deer
          (:n :v) global "<leader>or" #'ranger)
-  (ranger-override-dired-mode t)
   :custom
   (ranger-cleanup-on-disable t)
   (ranger-cleanup-eagerly t)
